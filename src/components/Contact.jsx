@@ -58,7 +58,7 @@ const Contact = () => {
                     }}
                 >
                     <a
-                        href="https://github.com"
+                        href="https://github.com/ssanidhya0407"
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
@@ -73,7 +73,7 @@ const Contact = () => {
                         GitHub
                     </a>
                     <a
-                        href="https://linkedin.com"
+                        href="https://linkedin.com/in/ssanidhya0407"
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
