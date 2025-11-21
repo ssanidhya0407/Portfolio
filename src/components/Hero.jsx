@@ -1,7 +1,17 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Hero = () => {
+    const words = ['Intelligence', 'Experiences', 'Solutions', 'Innovation', 'The Future'];
+    const [currentWord, setCurrentWord] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentWord((prev) => (prev + 1) % words.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <section style={{
             minHeight: '100vh',
@@ -42,22 +52,53 @@ const Hero = () => {
                     Sanidhya Kumar Singh
                 </motion.h2>
 
-                {/* Headline */}
-                <motion.h1
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                    style={{
-                        fontSize: 'clamp(56px, 9vw, 96px)',
-                        fontWeight: 700,
-                        lineHeight: 1.05,
-                        letterSpacing: '-0.025em',
-                        color: 'var(--text)',
-                        marginBottom: '2rem'
-                    }}
-                >
-                    I Build Intelligence
-                </motion.h1>
+                {/* Headline with Dynamic Text */}
+                <div style={{
+                    fontSize: 'clamp(56px, 9vw, 96px)',
+                    fontWeight: 700,
+                    lineHeight: 1.05,
+                    letterSpacing: '-0.025em',
+                    color: 'var(--text)',
+                    marginBottom: '2rem',
+                    minHeight: 'clamp(60px, 10vw, 105px)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <motion.h1
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1.1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                        style={{
+                            fontSize: 'inherit',
+                            fontWeight: 'inherit',
+                            lineHeight: 'inherit',
+                            letterSpacing: 'inherit',
+                            color: 'inherit',
+                            margin: 0
+                        }}
+                    >
+                        I Build{' '}
+                        <AnimatePresence mode="wait">
+                            <motion.span
+                                key={currentWord}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                                style={{
+                                    display: 'inline-block',
+                                    background: 'linear-gradient(135deg, var(--accent), #a855f7)',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                    backgroundClip: 'text'
+                                }}
+                            >
+                                {words[currentWord]}
+                            </motion.span>
+                        </AnimatePresence>
+                    </motion.h1>
+                </div>
 
                 {/* Description */}
                 <motion.p
@@ -72,8 +113,7 @@ const Hero = () => {
                         fontWeight: 400
                     }}
                 >
-                    Computer Vision Engineer @ NIT Tiruchirapalli<br />
-                    iOS Developer @ Apple & Infosys Program
+                    Final Year Undergrad @ SRM University
                 </motion.p>
 
                 {/* CTA */}
