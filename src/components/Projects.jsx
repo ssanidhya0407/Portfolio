@@ -108,18 +108,136 @@ const Projects = () => {
                                         left: 0,
                                         right: 0,
                                         height: '2px',
-                                        background: `linear-gradient(90deg, transparent, ${project.color}60, transparent)`
+                                        background: `linear-gradient(90deg, transparent, ${project.color}60, transparent)`,
+                                        zIndex: 1
                                     }} />
 
-                                    <img
-                                        src={project.image}
-                                        alt={project.title}
-                                        style={{
-                                            width: '100%',
-                                            display: 'block',
-                                            borderRadius: '22px'
-                                        }}
-                                    />
+                                    <div className="project-image-wrapper">
+                                        <img
+                                            src={project.image}
+                                            alt={project.title}
+                                            style={{
+                                                width: '100%',
+                                                display: 'block',
+                                                borderRadius: '22px'
+                                            }}
+                                        />
+
+                                        {/* Hover Overlay */}
+                                        <div
+                                            className="project-hover-overlay"
+                                            style={{
+                                                background: `linear-gradient(135deg, ${project.color}F5, ${project.color}E8)`
+                                            }}
+                                        >
+                                            <h3 style={{
+                                                color: '#fff',
+                                                marginBottom: '0.8rem',
+                                                fontSize: '1.8rem',
+                                                fontWeight: 700,
+                                                textAlign: 'center'
+                                            }}>
+                                                {project.title}
+                                            </h3>
+
+                                            <p style={{
+                                                color: 'rgba(255,255,255,0.95)',
+                                                marginBottom: '1.2rem',
+                                                textAlign: 'center',
+                                                fontSize: '0.95rem',
+                                                lineHeight: 1.5
+                                            }}>
+                                                {project.desc}
+                                            </p>
+
+                                            <div style={{
+                                                display: 'flex',
+                                                gap: '8px',
+                                                flexWrap: 'wrap',
+                                                justifyContent: 'center',
+                                                marginBottom: '1.2rem'
+                                            }}>
+                                                {project.tech.map(tech => (
+                                                    <span key={tech} style={{
+                                                        padding: '6px 14px',
+                                                        background: 'rgba(255,255,255,0.25)',
+                                                        border: '1px solid rgba(255,255,255,0.4)',
+                                                        borderRadius: '16px',
+                                                        fontSize: '0.8rem',
+                                                        color: '#fff',
+                                                        fontWeight: 600,
+                                                        backdropFilter: 'blur(10px)',
+                                                        WebkitBackdropFilter: 'blur(10px)'
+                                                    }}>
+                                                        {tech}
+                                                    </span>
+                                                ))}
+                                            </div>
+
+                                            <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                                                {project.appStoreLink && (
+                                                    <a
+                                                        href={project.appStoreLink}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        style={{
+                                                            color: project.color,
+                                                            background: 'rgba(255,255,255,0.95)',
+                                                            padding: '10px 20px',
+                                                            borderRadius: '20px',
+                                                            textDecoration: 'none',
+                                                            fontSize: '0.9rem',
+                                                            fontWeight: 700,
+                                                            border: '2px solid rgba(255,255,255,0.5)',
+                                                            transition: 'all 0.3s ease',
+                                                            display: 'inline-block'
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.currentTarget.style.transform = 'scale(1.05)';
+                                                            e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.3)';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.currentTarget.style.transform = 'scale(1)';
+                                                            e.currentTarget.style.boxShadow = 'none';
+                                                        }}
+                                                    >
+                                                        App Store →
+                                                    </a>
+                                                )}
+                                                {project.link && (
+                                                    <a
+                                                        href={project.link}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        style={{
+                                                            color: '#fff',
+                                                            background: 'rgba(255,255,255,0.15)',
+                                                            padding: '10px 20px',
+                                                            borderRadius: '20px',
+                                                            textDecoration: 'none',
+                                                            fontSize: '0.9rem',
+                                                            fontWeight: 700,
+                                                            border: '2px solid rgba(255,255,255,0.3)',
+                                                            backdropFilter: 'blur(10px)',
+                                                            WebkitBackdropFilter: 'blur(10px)',
+                                                            transition: 'all 0.3s ease',
+                                                            display: 'inline-block'
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.currentTarget.style.transform = 'scale(1.05)';
+                                                            e.currentTarget.style.background = 'rgba(255,255,255,0.25)';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.currentTarget.style.transform = 'scale(1)';
+                                                            e.currentTarget.style.background = 'rgba(255,255,255,0.15)';
+                                                        }}
+                                                    >
+                                                        GitHub →
+                                                    </a>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             {/* Content */}
