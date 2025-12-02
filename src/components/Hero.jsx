@@ -1,5 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useSpring, useTransform, useInView } from 'framer-motion';
+
+const Counter = ({ value, delay = 0 }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true });
+    const spring = useSpring(0, { mass: 1, stiffness: 50, damping: 20 }); // Adjusted for slower, smoother count
+    const display = useTransform(spring, (current) => Math.round(current));
+
+    useEffect(() => {
+        if (isInView) {
+            const timer = setTimeout(() => {
+                spring.set(value);
+            }, delay * 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [isInView, spring, value, delay]);
+
+    return <motion.span ref={ref}>{display}</motion.span>;
+};
 
 const Hero = () => {
     const words = ['Intelligence', 'Experiences', 'Solutions', 'Innovation', 'The Future'];
@@ -191,9 +209,9 @@ const Hero = () => {
                     }}
                 >
                     {[
-                        { value: '8+', label: 'Projects' },
-                        { value: '5', label: 'Internships' },
-                        { value: '25+', label: 'Skills' }
+                        { value: 8, label: 'Projects', suffix: '+' },
+                        { value: 5, label: 'Internships', suffix: '' },
+                        { value: 25, label: 'Skills', suffix: '+' }
                     ].map((stat, i) => (
                         <div key={i} style={{ textAlign: 'center' }}>
                             <div style={{
@@ -203,7 +221,7 @@ const Hero = () => {
                                 marginBottom: '6px',
                                 letterSpacing: '-0.02em'
                             }}>
-                                {stat.value}
+                                <Counter value={stat.value} delay={1.2} />{stat.suffix}
                             </div>
                             <div style={{
                                 fontSize: '11px',

@@ -315,44 +315,52 @@ section {
   transform: translateX(-50%);
 }
 
-.timeline-item {
-  position: relative;
-  margin-bottom: 4rem;
+.timeline-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  grid-template-columns: 1fr 80px 1fr;
   align-items: center;
+  margin-bottom: 4rem;
 }
 
-.timeline-item:nth-child(even) .timeline-content {
-  grid-column: 1;
+.timeline-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.timeline-side.left {
   text-align: right;
+  align-items: flex-end;
+  padding-right: 2rem;
 }
 
-.timeline-item:nth-child(even) .timeline-card {
-  grid-column: 2;
-}
-
-.timeline-item:nth-child(odd) .timeline-content {
-  grid-column: 2;
+.timeline-side.right {
   text-align: left;
+  align-items: flex-start;
+  padding-left: 2rem;
 }
 
-.timeline-item:nth-child(odd) .timeline-card {
-  grid-column: 1;
+.timeline-axis {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
 }
 
 .timeline-dot {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   width: 20px;
   height: 20px;
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.2), 0 0 20px rgba(0, 113, 227, 0.4);
   z-index: 2;
+}
+
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Responsive */
@@ -375,8 +383,8 @@ section {
     padding: 2rem 1.5rem;
   }
 
-  .timeline-item {
-    grid-template-columns: 1fr;
+  .timeline-row {
+    grid-template-columns: 40px 1fr;
     gap: 1rem;
   }
 
@@ -384,23 +392,141 @@ section {
     left: 20px;
   }
 
-  .timeline-dot {
-    left: 20px;
+  .timeline-axis {
+    justify-content: flex-start;
+    padding-left: 10px;
+    /* Center dot on line (20px left) */
   }
 
-  .timeline-item:nth-child(even) .timeline-content,
-  .timeline-item:nth-child(odd) .timeline-content {
-    grid-column: 1;
-    text-align: left;
+  .timeline-side.left {
+    display: none;
+    /* Hide left side on mobile if it's empty or move content */
+  }
+
+  /* On mobile, we need to stack content. 
+     Since we split content into left/right in JSX, we need to handle this carefully.
+     However, the current JSX structure puts content in either left or right.
+     For mobile, we might need to adjust the JSX or use CSS to re-order.
+     
+     Actually, with the current JSX, one side is always empty.
+     So we can just make the grid 1 column? No, we need the axis.
+     
+     Let's use a simpler mobile layout:
+     Axis | Content
+  */
+
+  .timeline-row {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left: 3rem;
+    align-items: flex-start;
+  }
+
+  .timeline-axis {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 100%;
+    align-items: flex-start;
+    padding-top: 2.5rem;
+    /* Align dot with card top roughly */
+    justify-content: center;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: 20px;
+    transform: translateX(-50%);
+    top: 2.5rem;
+    /* Match padding-top of content if needed, or center */
+    /* Actually, let's center it relative to the card? No, usually top aligned on mobile */
+  }
+
+  .timeline-side {
+    width: 100%;
+    padding: 0 !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+    margin-bottom: 1rem;
+  }
+
+  .timeline-side.left:empty,
+  .timeline-side.right:empty {
+    display: none;
+  }
+
+  /* We need to ensure the date shows up on mobile.
+     In the current JSX, date is in the "other" side.
+     This means for even items, date is in Left, Card in Right.
+     For odd items, Card in Left, Date in Right.
+     
+     On mobile, we want Date then Card.
+     
+     We can use flex-direction: column-reverse for odd items?
+     No, because they are in separate divs.
+     
+     This JSX structure is hard for mobile if we want to stack them easily without duplication.
+     But we can use display: contents?
+     
+     Better approach for mobile with this JSX:
+     Make .timeline-row flex-direction: column.
+     Order the sides.
+  */
+
+  .timeline-row {
+    display: flex;
+    flex-direction: column;
     padding-left: 3rem;
   }
 
-  .timeline-item:nth-child(even) .timeline-card,
-  .timeline-item:nth-child(odd) .timeline-card {
-    grid-column: 1;
+  .timeline-axis {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 40px;
   }
 
-  .project-hover-overlay {
-    padding: 1.5rem;
+  .timeline-dot {
+    position: absolute;
+    left: 20px;
+    top: 2rem;
+    /* Approximate center of date */
+    transform: translateX(-50%);
+  }
+
+  /* Force order: Date then Card */
+  /* Even: Left(Date), Right(Card) -> Default order is Left, Axis, Right. Good. */
+  /* Odd: Left(Card), Right(Date) -> Default is Left, Axis, Right. Bad (Card then Date). */
+
+  .timeline-row:nth-child(odd) {
+    flex-direction: column-reverse;
+  }
+
+  /* Wait, axis is in the middle. 
+     Even: Left(Date) -> Axis -> Right(Card). Flex col: Date, Axis, Card. Axis is 0 height? No.
+     
+     Let's hide the axis container in the flow and position dot absolutely.
+  */
+
+  .timeline-axis {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 40px;
+    pointer-events: none;
+  }
+
+  .timeline-side {
+    width: 100%;
+    padding: 0;
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .timeline-content {
+    margin-bottom: 0.5rem;
   }
 }

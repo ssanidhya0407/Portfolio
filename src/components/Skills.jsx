@@ -1,5 +1,20 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
+import { motion, useSpring, useTransform, useInView } from 'framer-motion';
+
+const Counter = ({ value }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true });
+    const spring = useSpring(0, { mass: 1, stiffness: 100, damping: 30, duration: 2 });
+    const display = useTransform(spring, (current) => Math.round(current));
+
+    useEffect(() => {
+        if (isInView) {
+            spring.set(value);
+        }
+    }, [isInView, spring, value]);
+
+    return <motion.span ref={ref}>{display}</motion.span>;
+};
 
 const skills = {
     "iOS": ["Swift", "SwiftUI", "UIKit", "Xcode", "CoreML"],
@@ -13,6 +28,7 @@ const Skills = () => {
     const allSkills = Object.entries(skills).flatMap(([category, items]) =>
         items.map(item => ({ name: item, category }))
     );
+    const totalSkills = allSkills.length;
 
     const getCategoryColor = (category) => {
         const colors = {

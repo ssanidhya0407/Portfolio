@@ -1,5 +1,20 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useSpring, useTransform, useInView } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+
+const Counter = ({ value }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true });
+    const spring = useSpring(0, { mass: 1, stiffness: 100, damping: 30, duration: 2 });
+    const display = useTransform(spring, (current) => Math.round(current));
+
+    useEffect(() => {
+        if (isInView) {
+            spring.set(value);
+        }
+    }, [isInView, spring, value]);
+
+    return <motion.span ref={ref}>{display}</motion.span>;
+};
 
 const experiences = [
     {
@@ -74,160 +89,294 @@ const Experience = () => {
                 </motion.p>
 
                 <div className="timeline-container">
-                    {/* Timeline vertical line */}
                     <div className="timeline-line" />
 
                     {experiences.map((exp, index) => (
                         <motion.div
                             key={index}
-                            className="timeline-item"
+                            className="timeline-row"
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-100px" }}
                             transition={{ duration: 0.8, delay: index * 0.1 }}
                         >
-                            {/* Timeline dot */}
-                            <div
-                                className="timeline-dot"
-                                style={{
-                                    background: exp.color,
-                                    boxShadow: `0 0 0 4px ${exp.color}30, 0 0 20px ${exp.color}50`
-                                }}
-                            />
+                            {/* Left Side */}
+                            <div className="timeline-side left">
+                                {index % 2 === 0 ? (
+                                    <div className="timeline-content">
+                                        <p style={{
+                                            color: exp.color,
+                                            fontSize: '1.1rem',
+                                            fontWeight: 700,
+                                            marginBottom: '0.5rem',
+                                            textTransform: 'uppercase',
+                                            letterSpacing: '0.05em'
+                                        }}>
+                                            {exp.period}
+                                        </p>
+                                        <p style={{
+                                            color: '#888',
+                                            fontSize: '0.95rem',
+                                            fontStyle: 'italic'
+                                        }}>
+                                            {exp.role}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div
+                                        className="timeline-card"
+                                        style={{
+                                            background: 'linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
+                                            border: `1px solid ${exp.color}40`,
+                                            borderRadius: '28px',
+                                            padding: '2.5rem',
+                                            backdropFilter: 'blur(40px)',
+                                            WebkitBackdropFilter: 'blur(40px)',
+                                            boxShadow: `
+                                                0 8px 32px rgba(0, 0, 0, 0.15),
+                                                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                                                0 0 0 1px ${exp.color}20
+                                            `,
+                                            position: 'relative',
+                                            overflow: 'hidden',
+                                            transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(-8px)';
+                                            e.currentTarget.style.boxShadow = `
+                                                0 20px 60px ${exp.color}30,
+                                                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                                                0 0 0 1px ${exp.color}40
+                                            `;
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(0)';
+                                            e.currentTarget.style.boxShadow = `
+                                                0 8px 32px rgba(0, 0, 0, 0.15),
+                                                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                                                0 0 0 1px ${exp.color}20
+                                            `;
+                                        }}
+                                    >
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                            height: '1px',
+                                            background: `linear-gradient(90deg, transparent, ${exp.color}60, transparent)`,
+                                            opacity: 0.5
+                                        }} />
 
-                            {/* Date - positioned on opposite side of card */}
-                            <div className="timeline-content">
-                                <p style={{
-                                    color: exp.color,
-                                    fontSize: '1.1rem',
-                                    fontWeight: 700,
-                                    marginBottom: '0.5rem',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '0.05em'
-                                }}>
-                                    {exp.period}
-                                </p>
-                                <p style={{
-                                    color: '#888',
-                                    fontSize: '0.95rem',
-                                    fontStyle: 'italic'
-                                }}>
-                                    {exp.role}
-                                </p>
+                                        <div style={{
+                                            width: '80px',
+                                            height: '80px',
+                                            borderRadius: '20px',
+                                            background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))`,
+                                            marginBottom: '1.5rem',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            backdropFilter: 'blur(20px)',
+                                            WebkitBackdropFilter: 'blur(20px)',
+                                            boxShadow: `0 8px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2)`,
+                                            border: '1px solid rgba(255,255,255,0.15)',
+                                            padding: '14px'
+                                        }}>
+                                            <img
+                                                src={exp.logo}
+                                                alt={exp.company}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    objectFit: 'contain'
+                                                }}
+                                            />
+                                        </div>
+
+                                        <h3 style={{
+                                            marginBottom: '1.5rem',
+                                            fontSize: '2rem',
+                                            fontWeight: 700,
+                                            color: '#fff'
+                                        }}>
+                                            {exp.company}
+                                        </h3>
+
+                                        <div style={{
+                                            padding: '1.2rem',
+                                            background: `linear-gradient(135deg, ${exp.color}10, ${exp.color}05)`,
+                                            borderRadius: '16px',
+                                            border: `1px solid ${exp.color}30`,
+                                            backdropFilter: 'blur(10px)',
+                                            WebkitBackdropFilter: 'blur(10px)'
+                                        }}>
+                                            <p style={{
+                                                color: '#aaa',
+                                                lineHeight: 1.7,
+                                                fontSize: '1.05rem',
+                                                margin: 0
+                                            }}>
+                                                {exp.achievement}
+                                            </p>
+                                        </div>
+
+                                        <div style={{
+                                            position: 'absolute',
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            height: '3px',
+                                            background: `linear-gradient(90deg, transparent, ${exp.color}80, transparent)`,
+                                            borderRadius: '0 0 28px 28px'
+                                        }} />
+                                    </div>
+                                )}
                             </div>
 
-                            {/* Card */}
-                            <div
-                                className="timeline-card"
-                                style={{
-                                    background: 'linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
-                                    border: `1px solid ${exp.color}40`,
-                                    borderRadius: '28px',
-                                    padding: '2.5rem',
-                                    backdropFilter: 'blur(40px)',
-                                    WebkitBackdropFilter: 'blur(40px)',
-                                    boxShadow: `
-                                        0 8px 32px rgba(0, 0, 0, 0.15),
-                                        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                                        0 0 0 1px ${exp.color}20
-                                    `,
-                                    position: 'relative',
-                                    overflow: 'hidden',
-                                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-8px)';
-                                    e.currentTarget.style.boxShadow = `
-                                        0 20px 60px ${exp.color}30,
-                                        inset 0 1px 0 rgba(255, 255, 255, 0.15),
-                                        0 0 0 1px ${exp.color}40
-                                    `;
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = `
-                                        0 8px 32px rgba(0, 0, 0, 0.15),
-                                        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                                        0 0 0 1px ${exp.color}20
-                                    `;
-                                }}
-                            >
-                                {/* Glass shine */}
-                                <div style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    height: '1px',
-                                    background: `linear-gradient(90deg, transparent, ${exp.color}60, transparent)`,
-                                    opacity: 0.5
-                                }} />
+                            {/* Center Axis */}
+                            <div className="timeline-axis">
+                                <div
+                                    className="timeline-dot"
+                                    style={{
+                                        background: exp.color,
+                                        boxShadow: `0 0 0 4px ${exp.color}30, 0 0 20px ${exp.color}50`
+                                    }}
+                                />
+                            </div>
 
-                                {/* Logo */}
-                                <div style={{
-                                    width: '80px',
-                                    height: '80px',
-                                    borderRadius: '20px',
-                                    background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))`,
-                                    marginBottom: '1.5rem',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    backdropFilter: 'blur(20px)',
-                                    WebkitBackdropFilter: 'blur(20px)',
-                                    boxShadow: `0 8px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2)`,
-                                    border: '1px solid rgba(255,255,255,0.15)',
-                                    padding: '14px'
-                                }}>
-                                    <img
-                                        src={exp.logo}
-                                        alt={exp.company}
+                            {/* Right Side */}
+                            <div className="timeline-side right">
+                                {index % 2 !== 0 ? (
+                                    <div className="timeline-content">
+                                        <p style={{
+                                            color: exp.color,
+                                            fontSize: '1.1rem',
+                                            fontWeight: 700,
+                                            marginBottom: '0.5rem',
+                                            textTransform: 'uppercase',
+                                            letterSpacing: '0.05em'
+                                        }}>
+                                            {exp.period}
+                                        </p>
+                                        <p style={{
+                                            color: '#888',
+                                            fontSize: '0.95rem',
+                                            fontStyle: 'italic'
+                                        }}>
+                                            {exp.role}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div
+                                        className="timeline-card"
                                         style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            objectFit: 'contain'
+                                            background: 'linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
+                                            border: `1px solid ${exp.color}40`,
+                                            borderRadius: '28px',
+                                            padding: '2.5rem',
+                                            backdropFilter: 'blur(40px)',
+                                            WebkitBackdropFilter: 'blur(40px)',
+                                            boxShadow: `
+                                                0 8px 32px rgba(0, 0, 0, 0.15),
+                                                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                                                0 0 0 1px ${exp.color}20
+                                            `,
+                                            position: 'relative',
+                                            overflow: 'hidden',
+                                            transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
                                         }}
-                                    />
-                                </div>
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(-8px)';
+                                            e.currentTarget.style.boxShadow = `
+                                                0 20px 60px ${exp.color}30,
+                                                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                                                0 0 0 1px ${exp.color}40
+                                            `;
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(0)';
+                                            e.currentTarget.style.boxShadow = `
+                                                0 8px 32px rgba(0, 0, 0, 0.15),
+                                                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                                                0 0 0 1px ${exp.color}20
+                                            `;
+                                        }}
+                                    >
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                            height: '1px',
+                                            background: `linear-gradient(90deg, transparent, ${exp.color}60, transparent)`,
+                                            opacity: 0.5
+                                        }} />
 
-                                <h3 style={{
-                                    marginBottom: '1.5rem',
-                                    fontSize: '2rem',
-                                    fontWeight: 700,
-                                    color: '#fff'
-                                }}>
-                                    {exp.company}
-                                </h3>
+                                        <div style={{
+                                            width: '80px',
+                                            height: '80px',
+                                            borderRadius: '20px',
+                                            background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))`,
+                                            marginBottom: '1.5rem',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            backdropFilter: 'blur(20px)',
+                                            WebkitBackdropFilter: 'blur(20px)',
+                                            boxShadow: `0 8px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2)`,
+                                            border: '1px solid rgba(255,255,255,0.15)',
+                                            padding: '14px'
+                                        }}>
+                                            <img
+                                                src={exp.logo}
+                                                alt={exp.company}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    objectFit: 'contain'
+                                                }}
+                                            />
+                                        </div>
 
-                                {/* Achievement */}
-                                <div style={{
-                                    padding: '1.2rem',
-                                    background: `linear-gradient(135deg, ${exp.color}10, ${exp.color}05)`,
-                                    borderRadius: '16px',
-                                    border: `1px solid ${exp.color}30`,
-                                    backdropFilter: 'blur(10px)',
-                                    WebkitBackdropFilter: 'blur(10px)'
-                                }}>
-                                    <p style={{
-                                        color: '#aaa',
-                                        lineHeight: 1.7,
-                                        fontSize: '1.05rem',
-                                        margin: 0
-                                    }}>
-                                        {exp.achievement}
-                                    </p>
-                                </div>
+                                        <h3 style={{
+                                            marginBottom: '1.5rem',
+                                            fontSize: '2rem',
+                                            fontWeight: 700,
+                                            color: '#fff'
+                                        }}>
+                                            {exp.company}
+                                        </h3>
 
-                                {/* Color accent at bottom */}
-                                <div style={{
-                                    position: 'absolute',
-                                    bottom: 0,
-                                    left: 0,
-                                    right: 0,
-                                    height: '3px',
-                                    background: `linear-gradient(90deg, transparent, ${exp.color}80, transparent)`,
-                                    borderRadius: '0 0 28px 28px'
-                                }} />
+                                        <div style={{
+                                            padding: '1.2rem',
+                                            background: `linear-gradient(135deg, ${exp.color}10, ${exp.color}05)`,
+                                            borderRadius: '16px',
+                                            border: `1px solid ${exp.color}30`,
+                                            backdropFilter: 'blur(10px)',
+                                            WebkitBackdropFilter: 'blur(10px)'
+                                        }}>
+                                            <p style={{
+                                                color: '#aaa',
+                                                lineHeight: 1.7,
+                                                fontSize: '1.05rem',
+                                                margin: 0
+                                            }}>
+                                                {exp.achievement}
+                                            </p>
+                                        </div>
+
+                                        <div style={{
+                                            position: 'absolute',
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            height: '3px',
+                                            background: `linear-gradient(90deg, transparent, ${exp.color}80, transparent)`,
+                                            borderRadius: '0 0 28px 28px'
+                                        }} />
+                                    </div>
+                                )}
                             </div>
                         </motion.div>
                     ))}
