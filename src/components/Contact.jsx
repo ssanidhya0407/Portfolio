@@ -21,7 +21,7 @@ const Contact = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.2 }}
                     style={{
-                        color: '#888',
+                        color: 'var(--text-dim)',
                         marginBottom: '4rem',
                         fontSize: '1.3rem',
                         lineHeight: 1.6
@@ -62,13 +62,13 @@ const Contact = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
-                            color: '#888',
+                            color: 'var(--text-dim)',
                             textDecoration: 'none',
                             fontSize: '1.1rem',
                             transition: 'color 0.3s'
                         }}
-                        onMouseEnter={(e) => e.target.style.color = '#0071e3'}
-                        onMouseLeave={(e) => e.target.style.color = '#888'}
+                        onMouseEnter={(e) => e.target.style.color = 'var(--accent)'}
+                        onMouseLeave={(e) => e.target.style.color = 'var(--text-dim)'}
                     >
                         GitHub
                     </a>
@@ -77,26 +77,26 @@ const Contact = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
-                            color: '#888',
+                            color: 'var(--text-dim)',
                             textDecoration: 'none',
                             fontSize: '1.1rem',
                             transition: 'color 0.3s'
                         }}
-                        onMouseEnter={(e) => e.target.style.color = '#0071e3'}
-                        onMouseLeave={(e) => e.target.style.color = '#888'}
+                        onMouseEnter={(e) => e.target.style.color = 'var(--accent)'}
+                        onMouseLeave={(e) => e.target.style.color = 'var(--text-dim)'}
                     >
                         LinkedIn
                     </a>
                     <a
                         href="tel:+919157332926"
                         style={{
-                            color: '#888',
+                            color: 'var(--text-dim)',
                             textDecoration: 'none',
                             fontSize: '1.1rem',
                             transition: 'color 0.3s'
                         }}
-                        onMouseEnter={(e) => e.target.style.color = '#0071e3'}
-                        onMouseLeave={(e) => e.target.style.color = '#888'}
+                        onMouseEnter={(e) => e.target.style.color = 'var(--accent)'}
+                        onMouseLeave={(e) => e.target.style.color = 'var(--text-dim)'}
                     >
                         +91-9157332926
                     </a>
@@ -108,7 +108,7 @@ const Contact = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.8 }}
                     style={{
-                        color: '#444',
+                        color: 'var(--text-muted)',
                         marginTop: '4rem',
                         fontSize: '0.9rem'
                     }}

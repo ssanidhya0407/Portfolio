@@ -42,7 +42,7 @@ const Achievements = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.2 }}
                     style={{
-                        color: '#888',
+                        color: 'var(--text-dim)',
                         textAlign: 'center',
                         marginBottom: '4rem',
                         fontSize: '1.2rem'
@@ -90,12 +90,12 @@ const Achievements = () => {
                             <h3 style={{
                                 fontSize: '1.5rem',
                                 marginBottom: '1rem',
-                                color: '#f5f5f7'
+                                color: 'var(--heading-color)'
                             }}>
                                 {achievement.title}
                             </h3>
                             <p style={{
-                                color: '#86868b',
+                                color: 'var(--text-dimmer)',
                                 fontSize: '1.05rem',
                                 lineHeight: 1.6
                             }}>

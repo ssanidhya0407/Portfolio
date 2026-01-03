@@ -61,7 +61,7 @@ const Projects = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.2 }}
                     style={{
-                        color: '#888',
+                        color: 'var(--text-dim)',
                         textAlign: 'center',
                         marginBottom: '6rem',
                         fontSize: '1.2rem'
@@ -258,7 +258,7 @@ const Projects = () => {
                                 </h3>
 
                                 <p style={{
-                                    color: '#aaa',
+                                    color: 'var(--text-secondary)',
                                     marginBottom: '2rem',
                                     lineHeight: 1.7,
                                     fontSize: '1.15rem'

@@ -60,7 +60,7 @@ const Skills = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.2 }}
                     style={{
-                        color: '#888',
+                        color: 'var(--text-dim)',
                         textAlign: 'center',
                         marginBottom: '4rem',
                         fontSize: '1.2rem'
@@ -120,7 +120,7 @@ const Skills = () => {
                                 borderRadius: '50%',
                                 background: getCategoryColor(category)
                             }} />
-                            <span style={{ color: '#888', fontSize: '0.9rem' }}>{category}</span>
+                            <span style={{ color: 'var(--text-dim)', fontSize: '0.9rem' }}>{category}</span>
                         </div>
                     ))}
                 </motion.div>

@@ -30,7 +30,7 @@ const Certifications = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.2 }}
                     style={{
-                        color: '#888',
+                        color: 'var(--text-dim)',
                         textAlign: 'center',
                         marginBottom: '4rem',
                         fontSize: '1.2rem'
@@ -73,12 +73,12 @@ const Certifications = () => {
                             <h3 style={{
                                 fontSize: '1.3rem',
                                 marginBottom: '0.5rem',
-                                color: '#f5f5f7'
+                                color: 'var(--heading-color)'
                             }}>
                                 {cert.name}
                             </h3>
                             <p style={{
-                                color: '#86868b',
+                                color: 'var(--text-dimmer)',
                                 fontSize: '1rem'
                             }}>
                                 {cert.issuer}

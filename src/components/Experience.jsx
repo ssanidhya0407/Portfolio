@@ -79,7 +79,7 @@ const Experience = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.2 }}
                     style={{
-                        color: '#888',
+                        color: 'var(--text-dim)',
                         textAlign: 'center',
                         marginBottom: '6rem',
                         fontSize: '1.2rem'
@@ -115,7 +115,7 @@ const Experience = () => {
                                             {exp.period}
                                         </p>
                                         <p style={{
-                                            color: '#888',
+                                            color: 'var(--text-dim)',
                                             fontSize: '0.95rem',
                                             fontStyle: 'italic'
                                         }}>
@@ -198,7 +198,7 @@ const Experience = () => {
                                             marginBottom: '1.5rem',
                                             fontSize: '2rem',
                                             fontWeight: 700,
-                                            color: '#fff'
+                                            color: 'var(--text)'
                                         }}>
                                             {exp.company}
                                         </h3>
@@ -212,7 +212,7 @@ const Experience = () => {
                                             WebkitBackdropFilter: 'blur(10px)'
                                         }}>
                                             <p style={{
-                                                color: '#aaa',
+                                                color: 'var(--text-secondary)',
                                                 lineHeight: 1.7,
                                                 fontSize: '1.05rem',
                                                 margin: 0
@@ -260,7 +260,7 @@ const Experience = () => {
                                             {exp.period}
                                         </p>
                                         <p style={{
-                                            color: '#888',
+                                            color: 'var(--text-dim)',
                                             fontSize: '0.95rem',
                                             fontStyle: 'italic'
                                         }}>
@@ -343,7 +343,7 @@ const Experience = () => {
                                             marginBottom: '1.5rem',
                                             fontSize: '2rem',
                                             fontWeight: 700,
-                                            color: '#fff'
+                                            color: 'var(--text)'
                                         }}>
                                             {exp.company}
                                         </h3>
@@ -357,7 +357,7 @@ const Experience = () => {
                                             WebkitBackdropFilter: 'blur(10px)'
                                         }}>
                                             <p style={{
-                                                color: '#aaa',
+                                                color: 'var(--text-secondary)',
                                                 lineHeight: 1.7,
                                                 fontSize: '1.05rem',
                                                 margin: 0
