@@ -1,6 +1,6 @@
 <div align="center">
 
-# ✨ Portfolio Website
+# Portfolio Website
 
 ### A Modern, Interactive Portfolio Built with React & Three.js
 
