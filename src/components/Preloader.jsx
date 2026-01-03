@@ -6,7 +6,7 @@ const Preloader = ({ onComplete }) => {
         <motion.div
             initial={{ opacity: 1 }}
             animate={{ opacity: 0 }}
-            transition={{ duration: 0.8, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, delay: 2.2, ease: [0.16, 1, 0.3, 1] }}
             onAnimationComplete={onComplete}
             style={{
                 position: 'fixed',
@@ -24,23 +24,67 @@ const Preloader = ({ onComplete }) => {
         >
             <div style={{ textAlign: 'center' }}>
                 {/* Animated Initials */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    style={{
-                        fontSize: 'clamp(3rem, 8vw, 5rem)',
-                        fontWeight: 800,
-                        letterSpacing: '-0.03em',
-                        background: 'linear-gradient(135deg, var(--accent), #a855f7)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                        marginBottom: '1.5rem'
-                    }}
-                >
-                    SKS
-                </motion.div>
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+                    fontWeight: 800,
+                    letterSpacing: '-0.03em',
+                    background: 'linear-gradient(135deg, var(--accent), #a855f7)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    marginBottom: '1.5rem'
+                }}>
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        S
+                    </motion.span>
+                    <motion.div
+                        initial={{ width: 0, opacity: 0 }}
+                        animate={{ width: 'auto', opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+                    >
+                        anidhya
+                    </motion.div>
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                        style={{ marginLeft: '0.2em' }}
+                    >
+                        K
+                    </motion.span>
+                    <motion.div
+                        initial={{ width: 0, opacity: 0 }}
+                        animate={{ width: 'auto', opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+                    >
+                        umar
+                    </motion.div>
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                        style={{ marginLeft: '0.2em' }}
+                    >
+                        S
+                    </motion.span>
+                    <motion.div
+                        initial={{ width: 0, opacity: 0 }}
+                        animate={{ width: 'auto', opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+                    >
+                        ingh
+                    </motion.div>
+                </div>
 
                 {/* Loading bar */}
                 <motion.div

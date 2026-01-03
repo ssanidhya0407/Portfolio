@@ -195,7 +195,7 @@ const Hero = () => {
                     </a>
 
                     <a
-                        href="/Sanidhya Kumar Singh_Doc-5 copy.pdf"
+                        href="/resume.pdf"
                         download="Sanidhya_Kumar_Singh_Resume.pdf"
                         style={{
                             padding: '14px 32px',
