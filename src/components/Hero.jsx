@@ -193,6 +193,37 @@ const Hero = () => {
                     >
                         Get in touch
                     </a>
+
+                    <a
+                        href="/Sanidhya Kumar Singh_Doc-5 copy.pdf"
+                        download="Sanidhya_Kumar_Singh_Resume.pdf"
+                        style={{
+                            padding: '14px 32px',
+                            fontSize: '17px',
+                            fontWeight: 500,
+                            color: 'var(--text-dim)',
+                            textDecoration: 'none',
+                            background: 'transparent',
+                            borderRadius: '980px',
+                            border: '1px solid var(--card-border)',
+                            transition: 'all 0.25s ease',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '8px'
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                            e.currentTarget.style.borderColor = 'var(--accent)';
+                            e.currentTarget.style.color = 'var(--accent)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'transparent';
+                            e.currentTarget.style.borderColor = 'var(--card-border)';
+                            e.currentTarget.style.color = 'var(--text-dim)';
+                        }}
+                    >
+                        📄 Resume
+                    </a>
                 </motion.div>
 
                 {/* Stats */}

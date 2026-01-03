@@ -78,9 +78,10 @@ const Projects = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-100px" }}
                             transition={{ duration: 1 }}
+                            className="project-row"
                             style={{
                                 display: 'grid',
-                                gridTemplateColumns: index % 2 === 0 ? '1fr 1fr' : '1fr 1fr',
+                                gridTemplateColumns: 'repeat(2, 1fr)',
                                 gap: '4rem',
                                 alignItems: 'center'
                             }}

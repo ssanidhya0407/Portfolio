@@ -542,3 +542,76 @@ section {
     margin-bottom: 0.5rem;
   }
 }
+
+/* Accessibility - Focus Visible */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Skip to Content Link */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  z-index: 10001;
+  transition: top 0.3s ease;
+}
+
+.skip-to-content:focus {
+  top: 20px;
+}
+
+/* Project Grid Mobile Responsive */
+.project-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4rem;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .project-row {
+    grid-template-columns: 1fr !important;
+    gap: 2rem;
+  }
+
+  .project-row>div {
+    order: unset !important;
+  }
+
+  .project-row>div:first-child {
+    order: 1 !important;
+  }
+
+  .project-row>div:last-child {
+    order: 2 !important;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
