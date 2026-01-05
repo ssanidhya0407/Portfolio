@@ -11,7 +11,7 @@ const Achievements = () => {
         },
         {
             icon: "🥈",
-            title: "6th Place SRM Hack 8.0",
+            title: "SRM Hack - Honorary Mention",
             description: "Qualified for funding program",
             color: "#a855f7"
         },
