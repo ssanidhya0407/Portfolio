@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, ChevronDown, ChevronUp, Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
@@ -287,9 +288,9 @@ const BentoGrid = () => {
                     >
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                             <h4 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)' }}>Certificates</h4>
-                            <a href="/about#certifications" style={{ color: 'var(--text-dim)', textDecoration: 'none' }}>
+                            <Link to="/about#certifications" style={{ color: 'var(--text-dim)', textDecoration: 'none' }}>
                                 <ArrowUpRight size={20} />
-                            </a>
+                            </Link>
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1, paddingTop: '16px' }}>
