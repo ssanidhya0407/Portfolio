@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, Phone, ArrowUpRight } from 'lucide-react';
 
@@ -11,10 +12,10 @@ const Contact = () => {
     ];
 
     const quickLinks = [
-        { name: 'Experience', href: '#experience' },
-        { name: 'Projects', href: '#projects' },
-        { name: 'Skills', href: '#skills' },
-        { name: 'Certifications', href: '#certifications' }
+        { name: 'Experience', href: '/experience' },
+        { name: 'Projects', href: '/projects' },
+        { name: 'About', href: '/about' },
+        { name: 'Home', href: '/' }
     ];
 
     return (
@@ -134,9 +135,9 @@ const Contact = () => {
                     }}
                 >
                     {quickLinks.map((link) => (
-                        <a
+                        <Link
                             key={link.name}
-                            href={link.href}
+                            to={link.href}
                             style={{
                                 color: 'var(--text-dimmer)',
                                 textDecoration: 'none',
@@ -151,7 +152,7 @@ const Contact = () => {
                         >
                             {link.name}
                             <ArrowUpRight size={14} />
-                        </a>
+                        </Link>
                     ))}
                 </motion.div>
 
