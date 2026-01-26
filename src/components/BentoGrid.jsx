@@ -1,11 +1,26 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useSpring, useTransform, useInView } from 'framer-motion';
 import { ArrowUpRight, ChevronDown, ChevronUp, Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { projects } from './Projects';
 import { experiences } from './Experience';
 import { certifications } from './Certifications';
+
+const Counter = ({ value }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true });
+    const spring = useSpring(0, { mass: 1, stiffness: 100, damping: 30, duration: 2 });
+    const display = useTransform(spring, (current) => Math.round(current));
+
+    useEffect(() => {
+        if (isInView) {
+            spring.set(value);
+        }
+    }, [isInView, spring, value]);
+
+    return <motion.span ref={ref}>{display}</motion.span>;
+};
 
 const BentoGrid = () => {
     const gridRef = useRef(null);
@@ -350,7 +365,7 @@ const BentoGrid = () => {
                         </div>
                     </motion.div>
 
-                    {/* 4c. Fun Fact (1x1) */}
+                    {/* 4c. Stats (1x1) */}
                     <motion.div
                         className="bento-item spotlight-card"
                         variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
@@ -361,16 +376,25 @@ const BentoGrid = () => {
                             padding: '24px',
                             display: 'flex',
                             flexDirection: 'column',
-                            justifyContent: 'space-between',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: '20px'
                         }}
                     >
-                        <h4 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)' }}>Fun Fact</h4>
+                        <div style={{ textAlign: 'center' }}>
+                            <h4 style={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1, marginBottom: '4px', color: 'var(--text)' }}>
+                                <Counter value={5} />
+                            </h4>
+                            <p style={{ fontSize: '0.85rem', color: 'var(--text-dim)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Internships</p>
+                        </div>
 
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                            <p style={{ fontSize: '2rem', marginBottom: '8px' }}>☕</p>
-                            <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                                Powered by coffee and curiosity
-                            </p>
+                        <div style={{ width: '40px', height: '2px', background: 'var(--card-border)', borderRadius: '2px' }} />
+
+                        <div style={{ textAlign: 'center' }}>
+                            <h4 style={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1, marginBottom: '4px', background: 'linear-gradient(135deg, #0071e3, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                                <Counter value={25} />+
+                            </h4>
+                            <p style={{ fontSize: '0.85rem', color: 'var(--text-dim)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Skills</p>
                         </div>
                     </motion.div>
 
