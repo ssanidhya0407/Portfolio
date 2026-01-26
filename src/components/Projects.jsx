@@ -3,6 +3,15 @@ import { motion } from 'framer-motion';
 
 const projects = [
     {
+        title: "Career Forge AI",
+        achievement: "🚀 AI Career Assistant",
+        desc: "Intelligent platform helping job seekers with AI-powered resume analysis, ATS optimization, and personalized career roadmaps.",
+        image: "/images/career_forge_ai_mockup.png",
+        link: "https://github.com/ssanidhya0407/career-forge-ai",
+        tech: ["React", "Python", "AI/ML", "OpenAI"],
+        color: "#8b5cf6"
+    },
+    {
         title: "ThriveUp",
         achievement: "🏆 Best App Award Winner",
         desc: "College engagement app connecting students with events. Built with SwiftUI, Firebase, and CoreML. Now live on the Apple App Store.",

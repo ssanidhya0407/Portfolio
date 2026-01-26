@@ -19,6 +19,22 @@
 
 A premium, modern portfolio website showcasing professional experience, projects, skills, certifications, and achievements. Built with cutting-edge technologies and featuring stunning 3D visualizations, smooth animations, and a refined glassmorphic design inspired by Apple's aesthetic.
 
+## 🌟 Featured Work: Career Forge AI
+
+<div align="center">
+
+### **[Career Forge AI - Intelligent Career Assistant](https://github.com/ssanidhya0407/career-forge-ai)**
+
+An advanced AI-powered platform designed to accelerate career growth.
+
+| **ATS Optimization** | **Smart Resume Builder** | **Career Roadmap** |
+|:-------------------:|:------------------------:|:-----------------:|
+| Real-time analysis of resume compatibility with job descriptions | AI-driven content suggestions and formatting | Personalized learning paths and milestone tracking |
+
+[![Tech Stack](https://img.shields.io/badge/Stack-React_•_Python_•_OPENAI-8b5cf6?style=for-the-badge)](https://github.com/ssanidhya0407/career-forge-ai)
+
+</div>
+
 ## ✨ Features
 
 <table>
