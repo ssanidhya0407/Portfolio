@@ -5,6 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
+import ScrollToTopOnNav from './components/ScrollToTopOnNav';
 import ScrollProgress from './components/ScrollProgress';
 import Preloader from './components/Preloader';
 import Home from './pages/Home';
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <ThemeProvider>
+      <ScrollToTopOnNav />
       {loading && <Preloader onComplete={() => setLoading(false)} />}
       <ScrollProgress />
       <Navbar />
