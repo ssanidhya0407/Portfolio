@@ -25,7 +25,14 @@ const Contact = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1 }}
-                    style={{ marginBottom: '2rem' }}
+                    style={{
+                        marginBottom: '2rem',
+                        background: 'linear-gradient(135deg, var(--text) 0%, var(--text-dim) 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        fontWeight: 800
+                    }}
                 >
                     Let's Build<br />Something Amazing
                 </motion.h2>

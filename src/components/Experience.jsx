@@ -16,7 +16,7 @@ const Counter = ({ value }) => {
     return <motion.span ref={ref}>{display}</motion.span>;
 };
 
-const experiences = [
+export const experiences = [
     {
         company: "NIT Tiruchirapalli",
         role: "Computer Vision Intern",
@@ -59,7 +59,9 @@ const experiences = [
     }
 ];
 
-const Experience = () => {
+const Experience = ({ preview = false }) => {
+    const visibleExperiences = preview ? experiences.slice(0, 3) : experiences;
+
     return (
         <section id="experience" style={{ minHeight: '100vh', padding: '8rem 5vw' }}>
             <div className="container">
@@ -68,9 +70,17 @@ const Experience = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1 }}
-                    style={{ marginBottom: '1rem', textAlign: 'center' }}
+                    style={{
+                        marginBottom: '1rem',
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, var(--text) 0%, var(--text-dim) 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        fontWeight: 800
+                    }}
                 >
-                    Experience
+                    {preview ? "Experience Highlights" : "Experience"}
                 </motion.h2>
 
                 <motion.p
@@ -85,13 +95,13 @@ const Experience = () => {
                         fontSize: '1.2rem'
                     }}
                 >
-                    5 internships across leading institutions and companies
+                    {preview ? "Select roles from my professional journey" : "5 internships across leading institutions and companies"}
                 </motion.p>
 
                 <div className="timeline-container">
                     <div className="timeline-line" />
 
-                    {experiences.map((exp, index) => (
+                    {visibleExperiences.map((exp, index) => (
                         <motion.div
                             key={index}
                             className="timeline-row"
@@ -350,40 +360,220 @@ const Experience = () => {
                                         </h3>
 
                                         <div style={{
-                                            padding: '1.2rem',
-                                            background: `linear-gradient(135deg, ${exp.color}10, ${exp.color}05)`,
+                                            padding: preview ? '0' : '1.2rem',
+                                            background: preview ? 'transparent' : `linear-gradient(135deg, ${exp.color}10, ${exp.color}05)`,
                                             borderRadius: '16px',
-                                            border: `1px solid ${exp.color}30`,
-                                            backdropFilter: 'blur(10px)',
-                                            WebkitBackdropFilter: 'blur(10px)'
+                                            border: preview ? 'none' : `1px solid ${exp.color}30`,
+                                            backdropFilter: preview ? 'none' : 'blur(10px)',
+                                            WebkitBackdropFilter: preview ? 'none' : 'blur(10px)'
                                         }}>
-                                            <p style={{
-                                                color: 'var(--text-secondary)',
-                                                lineHeight: 1.7,
-                                                fontSize: '1.05rem',
-                                                margin: 0
-                                            }}>
-                                                {exp.achievement}
-                                            </p>
+                                            {!preview && (
+                                                <p style={{
+                                                    color: 'var(--text-secondary)',
+                                                    lineHeight: 1.7,
+                                                    fontSize: '1.05rem',
+                                                    margin: 0
+                                                }}>
+                                                    {exp.achievement}
+                                                </p>
+                                            )}
                                         </div>
 
-                                        <div style={{
-                                            position: 'absolute',
-                                            bottom: 0,
-                                            left: 0,
-                                            right: 0,
-                                            height: '3px',
-                                            background: `linear-gradient(90deg, transparent, ${exp.color}80, transparent)`,
-                                            borderRadius: '0 0 28px 28px'
-                                        }} />
+                                        {!preview && (
+                                            <div style={{
+                                                position: 'absolute',
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                height: '3px',
+                                                background: `linear-gradient(90deg, transparent, ${exp.color}80, transparent)`,
+                                                borderRadius: '0 0 28px 28px'
+                                            }} />
+                                        )}
                                     </div>
                                 )}
                             </div>
                         </motion.div>
                     ))}
                 </div>
+
+                {preview && (
+                    <div style={{ textAlign: 'center', marginTop: '6rem' }}>
+                        <a href="/about" className="btn" style={{ textDecoration: 'none' }}>
+                            View Full Journey
+                        </a>
+                    </div>
+                )}
             </div>
         </section>
+    );
+};
+
+export const ExperienceCluster = () => {
+    return (
+        <a href="/about" style={{ textDecoration: 'none', display: 'block' }}>
+            <motion.div
+                className="cluster-card"
+                whileHover="hover"
+                initial="rest"
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    minHeight: '400px',
+                    background: 'var(--card-bg)',
+                    borderRadius: '32px',
+                    border: '1px solid var(--card-border)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer'
+                }}
+            >
+                <div style={{
+                    position: 'relative',
+                    width: '260px',
+                    height: '260px',
+                    marginBottom: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <div style={{
+                        position: 'absolute',
+                        width: '100%',
+                        height: '100%',
+                        border: '1px dashed var(--text-dim)',
+                        borderRadius: '50%',
+                        opacity: 0.2
+                    }} />
+
+                    {/* Center Planet - Me/Profile or Main Role */}
+                    <div style={{
+                        width: '60px',
+                        height: '60px',
+                        borderRadius: '50%',
+                        background: 'var(--text)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10,
+                        boxShadow: '0 0 30px rgba(255,255,255,0.2)'
+                    }}>
+                        <span style={{ fontSize: '1.5rem' }}>👨‍💻</span>
+                    </div>
+
+                    {experiences.slice(0, 4).map((exp, index) => {
+                        const angle = (index * (360 / 4));
+                        const rad = angle * (Math.PI / 180);
+                        const radius = 100; // Orbit radius
+
+                        return (
+                            <motion.div
+                                key={index}
+                                variants={{
+                                    rest: { scale: 1, x: Math.cos(rad) * radius, y: Math.sin(rad) * radius },
+                                    hover: { scale: 1.1, x: Math.cos(rad) * radius * 1.1, y: Math.sin(rad) * radius * 1.1 }
+                                }}
+                                style={{
+                                    position: 'absolute',
+                                    width: '50px',
+                                    height: '50px',
+                                    borderRadius: '50%',
+                                    background: 'var(--card-bg)',
+                                    border: `1px solid ${exp.color}50`,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    boxShadow: `0 4px 12px ${exp.color}30`
+                                }}
+                            >
+                                <img
+                                    src={exp.logo}
+                                    alt={exp.company}
+                                    style={{ width: '60%', height: '60%', objectFit: 'contain' }}
+                                />
+                                <motion.div
+                                    variants={{ rest: { opacity: 0, y: 10 }, hover: { opacity: 1, y: -40 } }}
+                                    style={{
+                                        position: 'absolute',
+                                        background: 'var(--card-bg)',
+                                        border: '1px solid var(--card-border)',
+                                        padding: '4px 8px',
+                                        borderRadius: '8px',
+                                        fontSize: '0.75rem',
+                                        whiteSpace: 'nowrap',
+                                        pointerEvents: 'none'
+                                    }}
+                                >
+                                    {exp.company}
+                                </motion.div>
+                            </motion.div>
+                        );
+                    })}
+                </div>
+
+                <div style={{ textAlign: 'center', zIndex: 10 }}>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text)' }}>
+                        Experience
+                    </h3>
+                    <p style={{ color: 'var(--text-dim)', fontSize: '0.9rem' }}>
+                        View full journey &rarr;
+                    </p>
+                </div>
+            </motion.div>
+        </a>
+    );
+};
+
+export const ExperienceWidget = () => {
+    const visibleExperiences = experiences.slice(0, 3);
+
+    return (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem' }}>Experience</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0', flex: 1, position: 'relative' }}>
+                <div style={{ position: 'absolute', left: '24px', top: '10px', bottom: '10px', width: '2px', background: 'var(--card-border)' }} />
+
+                {visibleExperiences.map((exp, index) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        style={{
+                            display: 'flex',
+                            gap: '1rem',
+                            paddingBottom: '2rem',
+                            position: 'relative'
+                        }}
+                    >
+                        <div style={{
+                            width: '50px',
+                            height: '50px',
+                            borderRadius: '12px',
+                            background: 'var(--card-bg)',
+                            border: `1px solid ${exp.color}40`,
+                            padding: '8px',
+                            zIndex: 2,
+                            flexShrink: 0
+                        }}>
+                            <img src={exp.logo} alt={exp.company} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                        </div>
+                        <div>
+                            <h4 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.2rem' }}>{exp.company}</h4>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-dim)', marginBottom: '0.2rem' }}>{exp.role}</p>
+                            <p style={{ fontSize: '0.8rem', color: exp.color, fontWeight: 500 }}>{exp.period}</p>
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+            <div style={{ marginTop: 'auto', textAlign: 'center', paddingTop: '1rem' }}>
+                <a href="/about" style={{ fontSize: '0.9rem', color: 'var(--text-dim)', textDecoration: 'none' }}>View Full History &rarr;</a>
+            </div>
+        </div>
     );
 };
 

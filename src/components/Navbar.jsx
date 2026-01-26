@@ -1,27 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import { Home as HomeIcon } from 'lucide-react';
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const { isDark, toggleTheme } = useTheme();
+    const location = useLocation();
 
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
         };
+
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+            if (window.innerWidth >= 768) setIsOpen(false);
+        };
+
+        handleResize();
         window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
 
     const links = [
-        { name: 'Experience', href: '#experience' },
-        { name: 'Projects', href: '#projects' },
-        { name: 'Skills', href: '#skills' },
-        { name: 'Certifications', href: '#certifications' },
-        { name: 'Achievements', href: '#achievements' },
-        { name: 'Contact', href: '#contact' }
+        { name: 'Home', href: '/', icon: HomeIcon },
+        { name: 'About', href: '/about' },
+        { name: 'Projects', href: '/projects' },
+        { name: 'Contact', href: '/contact' }
     ];
 
     const handleLinkClick = () => {
@@ -30,11 +43,9 @@ const Navbar = () => {
 
     return (
         <>
-            {/* Theme Toggle Button - Top Right */}
             <motion.button
-                initial={{ x: 100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 onClick={toggleTheme}
                 style={{
                     position: 'fixed',
@@ -64,187 +75,146 @@ const Navbar = () => {
                 {isDark ? '☀️' : '🌙'}
             </motion.button>
 
-            {/* Hamburger Button */}
-            <motion.button
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                onClick={() => setIsOpen(!isOpen)}
-                style={{
-                    position: 'fixed',
-                    top: '30px',
-                    left: '40px',
-                    zIndex: 1001,
-                    width: '50px',
-                    height: '50px',
-                    borderRadius: '50%',
-                    background: scrolled
-                        ? 'rgba(0, 0, 0, 0.85)'
-                        : 'rgba(0, 0, 0, 0.5)',
-                    backdropFilter: 'blur(20px)',
-                    WebkitBackdropFilter: 'blur(20px)',
-                    border: `1px solid ${scrolled ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.08)'}`,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    gap: '5px',
-                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                    boxShadow: scrolled
-                        ? '0 8px 32px rgba(0,0,0,0.4)'
-                        : '0 4px 16px rgba(0,0,0,0.2)'
-                }}
-            >
-                <motion.span
-                    animate={{
-                        rotate: isOpen ? 45 : 0,
-                        y: isOpen ? 8 : 0,
-                        scaleX: isOpen ? 1.2 : 1
-                    }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            {!isMobile && (
+                <motion.nav
+                    initial={{ y: -100, x: "-50%", opacity: 0 }}
+                    animate={{ y: 0, x: "-50%", opacity: 1 }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     style={{
-                        width: '20px',
-                        height: '2px',
-                        background: '#fff',
-                        borderRadius: '2px',
-                        transformOrigin: 'center'
+                        position: 'fixed',
+                        top: '30px',
+                        left: '50%',
+                        zIndex: 1000,
+                        padding: '8px 12px',
+                        borderRadius: '100px',
+                        background: scrolled
+                            ? 'rgba(0, 0, 0, 0.7)'
+                            : 'rgba(0, 0, 0, 0.5)',
+                        backdropFilter: 'blur(20px)',
+                        WebkitBackdropFilter: 'blur(20px)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        display: 'flex',
+                        gap: '4px',
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.2)'
                     }}
-                />
-                <motion.span
-                    animate={{
-                        opacity: isOpen ? 0 : 1,
-                        scaleX: isOpen ? 0 : 1
-                    }}
-                    transition={{ duration: 0.2 }}
-                    style={{
-                        width: '20px',
-                        height: '2px',
-                        background: '#fff',
-                        borderRadius: '2px'
-                    }}
-                />
-                <motion.span
-                    animate={{
-                        rotate: isOpen ? -45 : 0,
-                        y: isOpen ? -8 : 0,
-                        scaleX: isOpen ? 1.2 : 1
-                    }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    style={{
-                        width: '20px',
-                        height: '2px',
-                        background: '#fff',
-                        borderRadius: '2px',
-                        transformOrigin: 'center'
-                    }}
-                />
-            </motion.button>
+                >
+                    {links.map((link) => {
+                        const isActive = location.pathname === link.href;
+                        return (
+                            <Link
+                                key={link.name}
+                                to={link.href}
+                                style={{
+                                    textDecoration: 'none',
+                                    color: isActive ? '#fff' : 'rgba(255,255,255,0.7)',
+                                    padding: '10px 24px',
+                                    borderRadius: '100px',
+                                    fontSize: '0.95rem',
+                                    fontWeight: 500,
+                                    background: isActive ? 'rgba(255,255,255,0.15)' : 'transparent',
+                                    transition: 'all 0.3s ease',
+                                    border: isActive ? '1px solid rgba(255,255,255,0.1)' : '1px solid transparent',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                {link.icon ? <link.icon size={18} /> : link.name}
+                            </Link>
+                        );
+                    })}
+                </motion.nav>
+            )}
 
-            {/* Liquid Glass Menu */}
+            {isMobile && (
+                <motion.button
+                    initial={{ x: -100, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    onClick={() => setIsOpen(!isOpen)}
+                    style={{
+                        position: 'fixed',
+                        top: '30px',
+                        left: '40px',
+                        zIndex: 1001,
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '50%',
+                        background: scrolled ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.5)',
+                        backdropFilter: 'blur(20px)',
+                        WebkitBackdropFilter: 'blur(20px)',
+                        border: `1px solid ${scrolled ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.08)'}`,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                        gap: '5px',
+                        boxShadow: scrolled ? '0 8px 32px rgba(0,0,0,0.4)' : '0 4px 16px rgba(0,0,0,0.2)'
+                    }}
+                >
+                    <motion.span
+                        animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 8 : 0 }}
+                        style={{ width: '20px', height: '2px', background: '#fff', borderRadius: '2px' }}
+                    />
+                    <motion.span
+                        animate={{ opacity: isOpen ? 0 : 1 }}
+                        style={{ width: '20px', height: '2px', background: '#fff', borderRadius: '2px' }}
+                    />
+                    <motion.span
+                        animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -8 : 0 }}
+                        style={{ width: '20px', height: '2px', background: '#fff', borderRadius: '2px' }}
+                    />
+                </motion.button>
+            )}
+
             <AnimatePresence>
-                {isOpen && (
+                {isOpen && isMobile && (
                     <>
-                        {/* Backdrop */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
                             onClick={() => setIsOpen(false)}
                             style={{
-                                position: 'fixed',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
+                                position: 'fixed', inset: 0,
                                 background: 'rgba(0, 0, 0, 0.6)',
                                 backdropFilter: 'blur(10px)',
-                                WebkitBackdropFilter: 'blur(10px)',
                                 zIndex: 999
                             }}
                         />
-
-                        {/* Menu Panel */}
                         <motion.nav
                             initial={{ x: -300, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             exit={{ x: -300, opacity: 0 }}
-                            transition={{
-                                duration: 0.5,
-                                ease: [0.16, 1, 0.3, 1]
-                            }}
                             style={{
-                                position: 'fixed',
-                                top: '100px',
-                                left: '40px',
-                                zIndex: 1000,
-                                padding: '2rem',
+                                position: 'fixed', top: '100px', left: '40px',
+                                zIndex: 1000, padding: '2rem',
                                 borderRadius: '32px',
                                 background: 'rgba(0, 0, 0, 0.9)',
                                 backdropFilter: 'blur(40px)',
-                                WebkitBackdropFilter: 'blur(40px)',
                                 border: '1px solid rgba(255,255,255,0.12)',
-                                boxShadow: '0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)',
                                 minWidth: '220px'
                             }}
                         >
-                            <div style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '0.5rem'
-                            }}>
-                                {links.map((link, index) => (
-                                    <motion.a
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                {links.map((link) => (
+                                    <Link
                                         key={link.name}
-                                        href={link.href}
+                                        to={link.href}
                                         onClick={handleLinkClick}
-                                        initial={{ x: -20, opacity: 0 }}
-                                        animate={{ x: 0, opacity: 1 }}
-                                        transition={{
-                                            duration: 0.4,
-                                            delay: 0.1 + index * 0.05,
-                                            ease: [0.16, 1, 0.3, 1]
-                                        }}
-                                        whileHover={{
-                                            x: 8,
-                                            transition: { duration: 0.2 }
-                                        }}
-                                        style={{
-                                            color: '#fff',
-                                            textDecoration: 'none',
-                                            fontSize: '1.1rem',
-                                            fontWeight: 500,
-                                            padding: '12px 16px',
-                                            borderRadius: '16px',
-                                            transition: 'background 0.3s',
-                                            position: 'relative'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.background = 'rgba(255,255,255,0.08)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.background = 'transparent';
-                                        }}
+                                        style={{ textDecoration: 'none', display: 'block' }}
                                     >
-                                        {link.name}
-                                    </motion.a>
+                                        <div style={{
+                                            color: location.pathname === link.href ? '#0071e3' : '#fff',
+                                            fontSize: '1.1rem', fontWeight: 500,
+                                            padding: '12px 16px', borderRadius: '16px',
+                                            background: location.pathname === link.href ? 'rgba(0, 113, 227, 0.1)' : 'transparent'
+                                        }}>
+                                            {link.name}
+                                        </div>
+                                    </Link>
                                 ))}
                             </div>
-
-                            {/* Decorative gradient */}
-                            <div style={{
-                                position: 'absolute',
-                                bottom: '-20px',
-                                left: '50%',
-                                transform: 'translateX(-50%)',
-                                width: '100px',
-                                height: '40px',
-                                background: 'linear-gradient(90deg, #0071e3, #a855f7)',
-                                filter: 'blur(30px)',
-                                opacity: 0.4,
-                                borderRadius: '50%'
-                            }} />
                         </motion.nav>
                     </>
                 )}
