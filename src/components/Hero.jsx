@@ -128,7 +128,7 @@ const Hero = () => {
                         {
                             icon: "🛠️",
                             title: "Full Stack & AI Engineer",
-                            desc: "Building scalable web apps & integrating ML models (Career Forge AI)."
+                            desc: "Building scalable web apps & integrating ML models."
                         },
                         {
                             icon: "🎓",

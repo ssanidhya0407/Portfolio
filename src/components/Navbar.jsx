@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
@@ -6,14 +6,26 @@ import { Home as HomeIcon } from 'lucide-react';
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
+    const [collapsed, setCollapsed] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const { isDark, toggleTheme } = useTheme();
     const location = useLocation();
+    const lastScrollY = useRef(0);
 
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
+            const currentScrollY = window.scrollY;
+            setScrolled(currentScrollY > 50);
+
+            // Collapse when scrolling down past 150px, expand when scrolling up or near top
+            if (currentScrollY > 150 && currentScrollY > lastScrollY.current) {
+                setCollapsed(true);
+            } else if (currentScrollY < lastScrollY.current || currentScrollY < 100) {
+                setCollapsed(false);
+            }
+
+            lastScrollY.current = currentScrollY;
         };
 
         const handleResize = () => {
@@ -33,9 +45,15 @@ const Navbar = () => {
     const links = [
         { name: 'Home', href: '/', icon: HomeIcon },
         { name: 'About', href: '/about' },
+        { name: 'Experience', href: '/experience' },
         { name: 'Projects', href: '/projects' },
         { name: 'Contact', href: '/contact' }
     ];
+
+    const getCurrentPageName = () => {
+        const currentLink = links.find(link => link.href === location.pathname);
+        return currentLink ? currentLink.name : 'Home';
+    };
 
     const handleLinkClick = () => {
         setIsOpen(false);
@@ -43,6 +61,7 @@ const Navbar = () => {
 
     return (
         <>
+            {/* Theme Toggle Button */}
             <motion.button
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -75,57 +94,87 @@ const Navbar = () => {
                 {isDark ? '☀️' : '🌙'}
             </motion.button>
 
+            {/* Desktop Navigation */}
             {!isMobile && (
                 <motion.nav
                     initial={{ y: -100, x: "-50%", opacity: 0 }}
                     animate={{ y: 0, x: "-50%", opacity: 1 }}
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    onClick={() => collapsed && setCollapsed(false)}
                     style={{
                         position: 'fixed',
                         top: '30px',
                         left: '50%',
                         zIndex: 1000,
-                        padding: '8px 12px',
+                        padding: collapsed ? '12px 24px' : '8px 12px',
                         borderRadius: '100px',
-                        background: scrolled
-                            ? 'rgba(0, 0, 0, 0.7)'
-                            : 'rgba(0, 0, 0, 0.5)',
+                        background: scrolled ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.5)',
                         backdropFilter: 'blur(20px)',
                         WebkitBackdropFilter: 'blur(20px)',
                         border: '1px solid rgba(255,255,255,0.1)',
                         display: 'flex',
                         gap: '4px',
-                        boxShadow: '0 8px 32px rgba(0,0,0,0.2)'
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+                        cursor: collapsed ? 'pointer' : 'default',
+                        transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
                     }}
                 >
-                    {links.map((link) => {
-                        const isActive = location.pathname === link.href;
-                        return (
-                            <Link
-                                key={link.name}
-                                to={link.href}
+                    <AnimatePresence mode="wait">
+                        {collapsed ? (
+                            <motion.span
+                                key="collapsed"
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
                                 style={{
-                                    textDecoration: 'none',
-                                    color: isActive ? '#fff' : 'rgba(255,255,255,0.7)',
-                                    padding: '10px 24px',
-                                    borderRadius: '100px',
+                                    color: '#fff',
                                     fontSize: '0.95rem',
-                                    fontWeight: 500,
-                                    background: isActive ? 'rgba(255,255,255,0.15)' : 'transparent',
-                                    transition: 'all 0.3s ease',
-                                    border: isActive ? '1px solid rgba(255,255,255,0.1)' : '1px solid transparent',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
+                                    fontWeight: 600,
+                                    padding: '0 8px'
                                 }}
                             >
-                                {link.icon ? <link.icon size={18} /> : link.name}
-                            </Link>
-                        );
-                    })}
+                                {getCurrentPageName()}
+                            </motion.span>
+                        ) : (
+                            <motion.div
+                                key="expanded"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                style={{ display: 'flex', gap: '4px' }}
+                            >
+                                {links.map((link) => {
+                                    const isActive = location.pathname === link.href;
+                                    return (
+                                        <Link
+                                            key={link.name}
+                                            to={link.href}
+                                            style={{
+                                                textDecoration: 'none',
+                                                color: isActive ? '#fff' : 'rgba(255,255,255,0.7)',
+                                                padding: '10px 24px',
+                                                borderRadius: '100px',
+                                                fontSize: '0.95rem',
+                                                fontWeight: 500,
+                                                background: isActive ? 'rgba(255,255,255,0.15)' : 'transparent',
+                                                transition: 'all 0.3s ease',
+                                                border: isActive ? '1px solid rgba(255,255,255,0.1)' : '1px solid transparent',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                            }}
+                                        >
+                                            {link.icon ? <link.icon size={18} /> : link.name}
+                                        </Link>
+                                    );
+                                })}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </motion.nav>
             )}
 
+            {/* Mobile Menu Button */}
             {isMobile && (
                 <motion.button
                     initial={{ x: -100, opacity: 0 }}
@@ -167,6 +216,7 @@ const Navbar = () => {
                 </motion.button>
             )}
 
+            {/* Mobile Menu */}
             <AnimatePresence>
                 {isOpen && isMobile && (
                     <>

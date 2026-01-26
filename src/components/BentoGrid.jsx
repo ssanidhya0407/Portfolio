@@ -143,7 +143,7 @@ const BentoGrid = () => {
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                            {projects.slice(0, 4).map((project, idx) => (
+                            {projects.slice(0, 5).map((project, idx) => (
                                 <a
                                     key={idx}
                                     href={project.link}
@@ -212,7 +212,7 @@ const BentoGrid = () => {
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                            {experiences.slice(0, 4).map((exp, idx) => (
+                            {experiences.slice(0, 5).map((exp, idx) => (
                                 <div
                                     key={idx}
                                     onClick={() => setExpandedExp(expandedExp === idx ? null : idx)}

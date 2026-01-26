@@ -9,6 +9,7 @@ import ScrollProgress from './components/ScrollProgress';
 import Preloader from './components/Preloader';
 import Home from './pages/Home';
 import About from './pages/About';
+import ExperiencePage from './pages/ExperiencePage';
 import ProjectsPage from './pages/ProjectsPage';
 import ContactPage from './pages/ContactPage';
 import './index.css';
@@ -27,6 +28,7 @@ function App() {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/experience" element={<ExperiencePage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Routes>
