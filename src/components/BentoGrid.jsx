@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useSpring, useTransform, useInView } from 'framer-motion';
-import { ArrowUpRight, ChevronDown, ChevronUp, Github, Linkedin, Mail, MapPin } from 'lucide-react';
+import { ArrowUpRight, ChevronDown, ChevronUp, Github, Linkedin, Mail, MapPin, User, FolderGit2, Briefcase, Award, Zap } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { projects } from './Projects';
 import { experiences } from './Experience';
@@ -47,14 +47,25 @@ const BentoGrid = () => {
     }, []);
 
     const cardStyle = {
-        background: 'var(--card-bg)',
-        border: '1px solid var(--card-border)',
+        background: isDark ? '#0A0A0A' : '#ffffff',
+        border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
         borderRadius: '32px',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
         overflow: 'hidden',
-        position: 'relative'
+        position: 'relative',
+        boxShadow: isDark ? 'none' : '0 4px 20px rgba(0,0,0,0.03)'
     };
+
+    const iconBoxStyle = (bgColor, color) => ({
+        width: '48px',
+        height: '48px',
+        borderRadius: '50%',
+        background: bgColor,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: color,
+        marginBottom: '1.5rem'
+    });
 
     return (
         <section id="bento" style={{ padding: '2rem 0 4rem' }}>
@@ -75,17 +86,17 @@ const BentoGrid = () => {
                     }}
                     style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(4, 1fr)',
+                        gridTemplateColumns: 'repeat(6, 1fr)', // 6-column grid
                         gridAutoRows: 'minmax(280px, auto)',
                         gap: '24px'
                     }}
                 >
-                    {/* 1. Profile Card (2x2) */}
+                    {/* 1. Profile Card (3x2) - Merged with Stats */}
                     <motion.div
                         className="bento-item spotlight-card"
                         variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
                         style={{
-                            gridColumn: 'span 2',
+                            gridColumn: 'span 3',
                             gridRow: 'span 2',
                             ...cardStyle,
                             padding: '48px',
@@ -93,73 +104,98 @@ const BentoGrid = () => {
                             flexDirection: 'column',
                             justifyContent: 'space-between',
                             background: isDark
-                                ? 'linear-gradient(145deg, rgba(30,30,40,0.8), rgba(20,20,30,0.9))'
+                                ? 'linear-gradient(145deg, #0f0f11, #0a0a0a)'
                                 : 'linear-gradient(145deg, #ffffff, #f5f5f7)'
                         }}
                     >
                         <div>
                             <div style={{
-                                width: 'fit-content',
-                                padding: '6px 14px',
-                                borderRadius: '100px',
-                                background: 'rgba(255, 255, 255, 0.1)',
-                                border: '1px solid rgba(255, 255, 255, 0.1)',
-                                marginBottom: '2rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px'
+                                width: '100px',
+                                height: '100px',
+                                borderRadius: '50%',
+                                overflow: 'hidden',
+                                border: '2px solid rgba(255,255,255,0.1)',
+                                marginBottom: '1.5rem',
+                                boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
                             }}>
-                                <span style={{ color: 'var(--text-secondary)', fontWeight: 500, fontSize: '0.85rem' }}>Based in India</span>
+                                <img
+                                    src="/images/profile.jpg"
+                                    alt="Profile"
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
+                                />
                             </div>
+
                             <h2 style={{
-                                fontSize: 'clamp(2rem, 3.5vw, 3rem)',
-                                lineHeight: 1.1,
+                                fontSize: 'clamp(1.8rem, 3vw, 2.2rem)',
+                                lineHeight: 1.2,
                                 fontWeight: 700,
                                 marginBottom: '1rem',
-                                background: 'linear-gradient(to right, var(--text), var(--text-dim))',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent'
+                                color: 'var(--text)'
                             }}>
-                                Bridging design <br />
-                                and engineering.
+                                Bridging Design & Engineering
                             </h2>
+                            <p style={{
+                                fontSize: '1rem',
+                                color: 'var(--text-secondary)',
+                                lineHeight: 1.6,
+                                fontWeight: 400,
+                                maxWidth: '90%',
+                                marginBottom: '2rem'
+                            }}>
+                                Building scalable full-stack applications, native iOS experiences, and intelligent AI systems.
+                            </p>
                         </div>
-                        <p style={{
-                            fontSize: '1.2rem',
-                            color: 'var(--text-secondary)',
-                            lineHeight: 1.6,
-                            fontWeight: 400,
-                            maxWidth: '90%'
-                        }}>
-                            Building scalable full-stack applications, native iOS experiences, and intelligent AI systems with obsessive attention to craft.
-                        </p>
+
+                        {/* Stats Integrated into Profile */}
+                        <div style={{ display: 'flex', gap: '32px', paddingTop: '24px', borderTop: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)' }}>
+                            <div>
+                                <h4 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0', color: 'var(--text)' }}>
+                                    <Counter value={5} />
+                                </h4>
+                                <p style={{ fontSize: '0.75rem', color: 'var(--text-dim)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Internships</p>
+                            </div>
+                            <div>
+                                <h4 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0', background: 'linear-gradient(135deg, #0071e3, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                                    <Counter value={25} />+
+                                </h4>
+                                <p style={{ fontSize: '0.75rem', color: 'var(--text-dim)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Skills</p>
+                            </div>
+                            <div>
+                                <h4 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0', color: '#10b981' }}>
+                                    <Counter value={5} />+
+                                </h4>
+                                <p style={{ fontSize: '0.75rem', color: 'var(--text-dim)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Certs</p>
+                            </div>
+                        </div>
                     </motion.div>
 
-                    {/* 2. Projects List Widget (2x2) */}
+                    {/* 2. Projects List Widget (3x2) */}
                     <motion.div
                         className="bento-item spotlight-card"
                         variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
                         style={{
-                            gridColumn: 'span 2',
+                            gridColumn: 'span 3',
                             gridRow: 'span 2',
                             ...cardStyle,
-                            padding: '32px',
+                            padding: '40px',
+                            background: isDark ? '#0A0A0A' : '#ffffff'
                         }}
                     >
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <div style={{ padding: '8px', background: '#0071e320', borderRadius: '10px', color: '#0071e3' }}>
-                                    <Github size={20} />
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                            <div>
+                                <div style={iconBoxStyle(isDark ? 'rgba(16, 185, 129, 0.15)' : 'rgba(16, 185, 129, 0.1)', '#10b981')}>
+                                    <FolderGit2 size={24} />
                                 </div>
-                                <h3 style={{ fontSize: '1.5rem', fontWeight: 700 }}>Selected Work</h3>
+                                <h3 style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text)' }}>Selected Work</h3>
+                                <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '2rem' }}>Top projects from my portfolio.</p>
                             </div>
-                            <a href="/projects" style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.9rem', color: 'var(--text-dim)', textDecoration: 'none' }}>
+                            <Link to="/projects" style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.9rem', color: 'var(--text-dim)', textDecoration: 'none', padding: '8px 16px', background: 'var(--bg-secondary)', borderRadius: '20px' }}>
                                 View All <ArrowUpRight size={16} />
-                            </a>
+                            </Link>
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                            {projects.slice(0, 5).map((project, idx) => (
+                            {projects.slice(0, 4).map((project, idx) => (
                                 <a
                                     key={idx}
                                     href={project.link}
@@ -181,248 +217,140 @@ const BentoGrid = () => {
                                     }}
                                     className="list-item-hover"
                                 >
-                                    <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '4px', background: idx % 2 === 0 ? '#0071e3' : '#FF9F0A' }} />
-
-                                    <div style={{ paddingLeft: '12px' }}>
-                                        <h4 style={{ fontWeight: 600, fontSize: '1.1rem', marginBottom: '4px' }}>{project.title}</h4>
-                                        <p style={{ fontSize: '0.9rem', color: 'var(--text-dim)', margin: 0 }}>
+                                    <div style={{ paddingLeft: '8px' }}>
+                                        <h4 style={{ fontWeight: 600, fontSize: '1rem', marginBottom: '4px' }}>{project.title}</h4>
+                                        <p style={{ fontSize: '0.85rem', color: 'var(--text-dim)', margin: 0 }}>
                                             {project.achievement.split(',')[0]}
                                         </p>
                                     </div>
-                                    <div style={{
-                                        width: '36px',
-                                        height: '36px',
-                                        borderRadius: '12px',
-                                        background: 'var(--card-bg)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        color: 'var(--text)',
-                                        boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
-                                    }}>
-                                        <ArrowUpRight size={18} />
-                                    </div>
+                                    <ArrowUpRight size={16} color="var(--text-dim)" />
                                 </a>
                             ))}
                         </div>
                     </motion.div>
 
-                    {/* 3. Experience Stack (2x2) */}
+                    {/* 3. Experience Cluster (2x1) */}
                     <motion.div
                         className="bento-item spotlight-card"
                         variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
                         style={{
                             gridColumn: 'span 2',
-                            gridRow: 'span 2',
-                            ...cardStyle,
-                            padding: '32px',
-                        }}
-                    >
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <div style={{ padding: '8px', background: '#a855f720', borderRadius: '10px', color: '#a855f7' }}>
-                                    <ArrowUpRight size={20} />
-                                </div>
-                                <h3 style={{ fontSize: '1.5rem', fontWeight: 700 }}>Experience</h3>
-                            </div>
-                        </div>
-
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                            {experiences.slice(0, 5).map((exp, idx) => (
-                                <div
-                                    key={idx}
-                                    onClick={() => setExpandedExp(expandedExp === idx ? null : idx)}
-                                    style={{
-                                        background: 'var(--bg-secondary)',
-                                        borderRadius: '20px',
-                                        border: `1px solid ${expandedExp === idx ? exp.color + '60' : 'var(--card-border)'}`,
-                                        overflow: 'hidden',
-                                        cursor: 'pointer',
-                                        transition: 'all 0.3s ease',
-                                        boxShadow: expandedExp === idx ? `0 8px 24px ${exp.color}15` : 'none'
-                                    }}
-                                >
-                                    <div style={{ padding: '14px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-                                        <div style={{
-                                            width: '52px',
-                                            height: '52px',
-                                            borderRadius: '50%',
-                                            background: '#fff',
-                                            padding: '4px',
-                                            flexShrink: 0,
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            border: '2px solid rgba(0,0,0,0.05)',
-                                            boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
-                                        }}>
-                                            <img src={exp.logo} alt={exp.company} style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }} />
-                                        </div>
-                                        <div style={{ flex: 1 }}>
-                                            <h4 style={{ fontWeight: 600, fontSize: '1.1rem', marginBottom: '2px' }}>{exp.company}</h4>
-                                            <p style={{ fontSize: '0.85rem', color: exp.color, fontWeight: 500, margin: 0 }}>{exp.role}</p>
-                                        </div>
-                                        <div style={{ color: 'var(--text-dim)' }}>
-                                            {expandedExp === idx ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                                        </div>
-                                    </div>
-
-                                    <AnimatePresence>
-                                        {expandedExp === idx && (
-                                            <motion.div
-                                                initial={{ height: 0, opacity: 0 }}
-                                                animate={{ height: 'auto', opacity: 1 }}
-                                                exit={{ height: 0, opacity: 0 }}
-                                                style={{ borderTop: '1px solid var(--card-border)', background: 'var(--card-bg)' }}
-                                            >
-                                                <div style={{ padding: '16px 20px 20px', fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                                                    <p style={{ marginBottom: '8px', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-dim)' }}>
-                                                        {exp.period}
-                                                    </p>
-                                                    {exp.achievement}
-                                                </div>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </div>
-                            ))}
-                        </div>
-                    </motion.div>
-
-                    {/* 4. Certifications Stack (1x1) - HORIZONTAL AVATAR STACK with Safety Check */}
-                    <motion.div
-                        className="bento-item spotlight-card"
-                        variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-                        style={{
-                            gridColumn: 'span 1',
-                            gridRow: 'span 1',
-                            ...cardStyle,
-                            padding: '24px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                            <h4 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)' }}>Certificates</h4>
-                            <Link to="/about#certifications" style={{ color: 'var(--text-dim)', textDecoration: 'none' }}>
-                                <ArrowUpRight size={20} />
-                            </Link>
-                        </div>
-
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1, paddingTop: '16px' }}>
-                            {certifications && certifications.length > 0 ? (
-                                certifications.slice(0, 3).map((cert, idx) => (
-                                    <div
-                                        key={idx}
-                                        style={{
-                                            width: '70px',
-                                            height: '70px',
-                                            borderRadius: '50%',
-                                            background: '#fff',
-                                            border: '3px solid var(--card-bg)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            marginLeft: idx === 0 ? '0' : '-25px',
-                                            position: 'relative',
-                                            zIndex: 4 - idx,
-                                            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                                            overflow: 'hidden'
-                                        }}
-                                        title={cert.name}
-                                    >
-                                        <img src={cert.logo} alt={cert.issuer} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                                    </div>
-                                ))
-                            ) : (
-                                <p style={{ color: 'var(--text-dim)', fontSize: '0.8rem' }}>Loading...</p>
-                            )}
-                        </div>
-                    </motion.div>
-
-                    {/* 4b. Location Widget (1x1) */}
-                    <motion.div
-                        className="bento-item spotlight-card"
-                        variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-                        style={{
-                            gridColumn: 'span 1',
-                            gridRow: 'span 1',
-                            ...cardStyle,
-                            padding: '24px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                            <h4 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)' }}>Location</h4>
-                            <MapPin size={20} color="var(--text-dim)" />
-                        </div>
-
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                            <p style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '4px' }}>🇮🇳</p>
-                            <p style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text)' }}>India</p>
-                            <p style={{ fontSize: '0.85rem', color: 'var(--text-dim)' }}>Open to Remote</p>
-                        </div>
-                    </motion.div>
-
-                    {/* 4c. Stats (1x1) */}
-                    <motion.div
-                        className="bento-item spotlight-card"
-                        variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-                        style={{
-                            gridColumn: 'span 1',
-                            gridRow: 'span 1',
-                            ...cardStyle,
-                            padding: '24px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            gap: '20px'
-                        }}
-                    >
-                        <div style={{ textAlign: 'center' }}>
-                            <h4 style={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1, marginBottom: '4px', color: 'var(--text)' }}>
-                                <Counter value={5} />
-                            </h4>
-                            <p style={{ fontSize: '0.85rem', color: 'var(--text-dim)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Internships</p>
-                        </div>
-
-                        <div style={{ width: '40px', height: '2px', background: 'var(--card-border)', borderRadius: '2px' }} />
-
-                        <div style={{ textAlign: 'center' }}>
-                            <h4 style={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1, marginBottom: '4px', background: 'linear-gradient(135deg, #0071e3, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                                <Counter value={25} />+
-                            </h4>
-                            <p style={{ fontSize: '0.85rem', color: 'var(--text-dim)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Skills</p>
-                        </div>
-                    </motion.div>
-
-                    {/* 5. Contact / Socials (1x1) */}
-                    <motion.div
-                        className="bento-item spotlight-card"
-                        variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-                        style={{
-                            gridColumn: 'span 1',
                             gridRow: 'span 1',
                             ...cardStyle,
                             padding: '32px',
                             display: 'flex',
                             flexDirection: 'column',
-                            justifyContent: 'space-between'
+                            justifyContent: 'space-between',
+                            background: isDark ? '#0A0A0A' : '#ffffff'
                         }}
                     >
                         <div>
-                            <h4 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem' }}>Socials</h4>
+                            <div style={iconBoxStyle(isDark ? 'rgba(245, 158, 11, 0.15)' : 'rgba(245, 158, 11, 0.1)', '#f59e0b')}>
+                                <Briefcase size={24} />
+                            </div>
+                            <h4 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text)' }}>Experience</h4>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                                5 internships across leading tech firms.
+                            </p>
                         </div>
-                        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                            <a href="https://github.com/ssanidhya0407" target="_blank" rel="noopener noreferrer" className="social-btn" style={{ background: '#333', color: '#fff' }}>
+
+                        <div style={{ display: 'flex', gap: '12px', marginTop: '24px', flexWrap: 'wrap' }}>
+                            {experiences.map((exp, idx) => (
+                                <div key={idx} style={{
+                                    width: '56px',
+                                    height: '56px',
+                                    borderRadius: '50%',
+                                    background: 'var(--bg-secondary)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    padding: '10px',
+                                    border: '1px solid var(--card-border)'
+                                }} title={exp.company}>
+                                    <img src={exp.logo} alt={exp.company} style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }} />
+                                </div>
+                            ))}
+                            <Link to="/experience" style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-dim)' }}>
+                                <ArrowUpRight size={20} />
+                            </Link>
+                        </div>
+                    </motion.div>
+
+                    {/* 4. Certifications (2x1) */}
+                    <motion.div
+                        className="bento-item spotlight-card"
+                        variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+                        style={{
+                            gridColumn: 'span 2',
+                            gridRow: 'span 1',
+                            ...cardStyle,
+                            padding: '32px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            background: isDark ? '#0A0A0A' : '#ffffff'
+                        }}
+                    >
+                        <div>
+                            <div style={iconBoxStyle(isDark ? 'rgba(239, 68, 68, 0.15)' : 'rgba(239, 68, 68, 0.1)', '#ef4444')}>
+                                <Award size={24} />
+                            </div>
+                            <h4 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text)' }}>Certifications</h4>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                                Specialized credentials in cloud & AI.
+                            </p>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', marginTop: '24px', flexWrap: 'wrap', gap: '8px' }}>
+                            {certifications && certifications.map((cert, idx) => (
+                                <div key={idx} style={{
+                                    width: '40px', height: '40px', borderRadius: '50%',
+                                    background: '#fff',
+                                    border: '3px solid var(--card-bg)',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px'
+                                }}>
+                                    <img src={cert.logo} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                </div>
+                            ))}
+                            <Link to="/about" style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-dim)' }}>
+                                <ArrowUpRight size={20} />
+                            </Link>
+                        </div>
+                    </motion.div>
+
+                    {/* 5. Connect (2x1) */}
+                    <motion.div
+                        className="bento-item spotlight-card"
+                        variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+                        style={{
+                            gridColumn: 'span 2',
+                            gridRow: 'span 1',
+                            ...cardStyle,
+                            padding: '32px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            background: isDark ? '#0A0A0A' : '#ffffff'
+                        }}
+                    >
+                        <div>
+                            <div style={iconBoxStyle(isDark ? 'rgba(236, 72, 153, 0.15)' : 'rgba(236, 72, 153, 0.1)', '#ec4899')}>
+                                <Zap size={24} />
+                            </div>
+                            <h4 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text)' }}>Connect</h4>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                                Open to opportunities. Based in <span style={{ color: 'var(--text)', fontWeight: 600 }}>India</span>.
+                            </p>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
+                            <a href="https://github.com/ssanidhya0407" target="_blank" rel="noopener noreferrer" className="social-btn" style={{ background: 'var(--bg-secondary)', color: 'var(--text)', width: '40px', height: '40px' }}>
                                 <Github size={20} />
                             </a>
-                            <a href="https://www.linkedin.com/in/ssanidhya0407" target="_blank" rel="noopener noreferrer" className="social-btn" style={{ background: '#0077b5', color: '#fff' }}>
+                            <a href="https://www.linkedin.com/in/ssanidhya0407" target="_blank" rel="noopener noreferrer" className="social-btn" style={{ background: '#0077b5', color: '#fff', width: '40px', height: '40px' }}>
                                 <Linkedin size={20} />
                             </a>
-                            <a href="mailto:ssanidhya0407@gmail.com" className="social-btn" style={{ background: '#EA4335', color: '#fff' }}>
+                            <a href="mailto:ssanidhya0407@gmail.com" className="social-btn" style={{ background: '#EA4335', color: '#fff', width: '40px', height: '40px' }}>
                                 <Mail size={20} />
                             </a>
                         </div>
@@ -433,26 +361,38 @@ const BentoGrid = () => {
 
             <style jsx>{`
                 .social-btn {
-                    width: 40px;
-                    height: 40px;
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     text-decoration: none;
                     transition: all 0.2s ease;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
                 }
                 .social-btn:hover {
-                    transform: translateY(-2px) scale(1.1);
+                    transform: translateY(-2px);
                 }
                 .list-item-hover:hover {
                     background: var(--card-border) !important;
-                    transform: translateX(4px);
+                }
+                @media (max-width: 1024px) {
+                     #bento .container > div {
+                        grid-template-columns: repeat(2, 1fr) !important;
+                    }
+                    .bento-item {
+                        grid-column: span 1 !important;
+                        grid-row: span 1 !important;
+                    }
+                     .bento-item:nth-child(1), .bento-item:nth-child(2) {
+                        grid-column: span 2 !important;
+                     }
                 }
                 @media (max-width: 768px) {
+                    #bento .container > div {
+                        grid-template-columns: 1fr !important;
+                    }
                     .bento-item {
-                        grid-column: span 4 !important; /* Full width on mobile */
+                        grid-column: span 1 !important;
+                        grid-row: auto !important;
                     }
                 }
             `}</style>

@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Smartphone, Cpu, Globe, Cloud, Palette } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import Experience from '../components/Experience';
 import Skills from '../components/Skills';
 import Certifications from '../components/Certifications';
 import Achievements from '../components/Achievements';
@@ -30,6 +29,39 @@ const About = () => {
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
 
+    const cardStyle = {
+        background: isDark ? '#0A0A0A' : '#ffffff',
+        border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
+        borderRadius: '32px',
+        padding: '40px',
+        position: 'relative',
+        overflow: 'hidden',
+        boxShadow: isDark ? 'none' : '0 4px 20px rgba(0,0,0,0.03)'
+    };
+
+    const iconBoxStyle = (bgColor, color) => ({
+        width: '56px',
+        height: '56px',
+        borderRadius: '50%',
+        background: bgColor,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: color,
+        marginBottom: '1.5rem',
+        border: '1px solid rgba(255,255,255,0.05)'
+    });
+
+    const pillStyle = (bgColor, color) => ({
+        padding: '10px 18px',
+        background: bgColor,
+        color: color,
+        borderRadius: '24px',
+        fontSize: '0.9rem',
+        fontWeight: 500,
+        border: '1px solid rgba(255,255,255,0.05)'
+    });
+
     return (
         <motion.main
             initial={{ opacity: 0 }}
@@ -48,7 +80,8 @@ const About = () => {
                         fontSize: 'clamp(3rem, 6vw, 5rem)',
                         textAlign: 'center',
                         fontWeight: 700,
-                        letterSpacing: '-0.03em'
+                        letterSpacing: '-0.03em',
+                        color: 'var(--text)'
                     }}
                 >
                     Capabilities & Skills
@@ -56,38 +89,30 @@ const About = () => {
 
                 <div ref={gridRef} style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(4, 1fr)',
-                    gridAutoRows: '240px',
+                    gridTemplateColumns: 'repeat(6, 1fr)',
+                    gridAutoRows: 'auto',
                     gap: '24px',
                     marginBottom: '8rem'
                 }}>
                     {/* Web & Full Stack */}
                     <motion.div
                         className="spotlight-card"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
                         style={{
-                            gridColumn: 'span 2',
-                            padding: '40px',
-                            background: 'var(--card-bg)',
-                            border: '1px solid var(--card-border)',
-                            borderRadius: '32px',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            position: 'relative',
-                            overflow: 'hidden'
+                            gridColumn: 'span 3',
+                            ...cardStyle
                         }}
                     >
-                        <Globe size={32} color="#f59e0b" style={{ marginBottom: '1.5rem' }} />
-                        <h4 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', fontWeight: 600, color: 'var(--text)' }}>Web & Full Stack</h4>
+                        <div style={iconBoxStyle(isDark ? 'rgba(245, 158, 11, 0.1)' : 'rgba(245, 158, 11, 0.15)', '#f59e0b')}>
+                            <Globe size={28} />
+                        </div>
+                        <h4 style={{ fontSize: '1.8rem', marginBottom: '1rem', fontWeight: 700, color: 'var(--text)' }}>Web & Full Stack</h4>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: 1.6 }}>Building responsive, high-performance web applications with modern architectures.</p>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                            {['React', 'Next.js', 'Node.js', 'Vite', 'Three.js'].map(tech => (
-                                <span key={tech} style={{
-                                    padding: '10px 18px',
-                                    background: 'rgba(245, 158, 11, 0.15)',
-                                    color: '#f59e0b',
-                                    borderRadius: '24px',
-                                    fontSize: '0.95rem',
-                                    fontWeight: 500
-                                }}>
+                            {['React', 'Next.js', 'Node.js', 'Vite', 'Three.js', 'TypeScript'].map(tech => (
+                                <span key={tech} style={pillStyle(isDark ? 'rgba(245, 158, 11, 0.1)' : 'rgba(245, 158, 11, 0.15)', '#f59e0b')}>
                                     {tech}
                                 </span>
                             ))}
@@ -97,30 +122,23 @@ const About = () => {
                     {/* iOS Stack */}
                     <motion.div
                         className="spotlight-card"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
                         style={{
-                            gridColumn: 'span 2',
-                            padding: '40px',
-                            background: 'var(--card-bg)',
-                            border: '1px solid var(--card-border)',
-                            borderRadius: '32px',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            position: 'relative',
-                            overflow: 'hidden'
+                            gridColumn: 'span 3',
+                            ...cardStyle
                         }}
                     >
-                        <Smartphone size={32} color={isDark ? "#fff" : "#000"} style={{ marginBottom: '1.5rem' }} />
-                        <h4 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', fontWeight: 600, color: 'var(--text)' }}>iOS Development</h4>
+                        <div style={iconBoxStyle(isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)', isDark ? '#fff' : '#000')}>
+                            <Smartphone size={28} />
+                        </div>
+                        <h4 style={{ fontSize: '1.8rem', marginBottom: '1rem', fontWeight: 700, color: 'var(--text)' }}>iOS Development</h4>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: 1.6 }}>Crafting native Apple ecosystem experiences with fluid animations and robust logic.</p>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                             {['Swift', 'SwiftUI', 'UIKit', 'CoreML', 'XCode'].map(tech => (
-                                <span key={tech} style={{
-                                    padding: '10px 18px',
-                                    background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
-                                    color: 'var(--text)',
-                                    borderRadius: '24px',
-                                    fontSize: '0.95rem',
-                                    fontWeight: 500
-                                }}>
+                                <span key={tech} style={pillStyle(isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)', 'var(--text)')}>
                                     {tech}
                                 </span>
                             ))}
@@ -130,30 +148,23 @@ const About = () => {
                     {/* AI Stack */}
                     <motion.div
                         className="spotlight-card"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 }}
                         style={{
                             gridColumn: 'span 2',
-                            padding: '40px',
-                            background: 'var(--card-bg)',
-                            border: '1px solid var(--card-border)',
-                            borderRadius: '32px',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            position: 'relative',
-                            overflow: 'hidden'
+                            ...cardStyle
                         }}
                     >
-                        <Cpu size={32} color="#bf5af2" style={{ marginBottom: '1.5rem' }} />
-                        <h4 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', fontWeight: 600, color: 'var(--text)' }}>AI & ML</h4>
+                        <div style={iconBoxStyle(isDark ? 'rgba(191, 90, 242, 0.1)' : 'rgba(191, 90, 242, 0.15)', '#bf5af2')}>
+                            <Cpu size={28} />
+                        </div>
+                        <h4 style={{ fontSize: '1.8rem', marginBottom: '1rem', fontWeight: 700, color: 'var(--text)' }}>AI & ML</h4>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: 1.6 }}>Integrating intelligent models and data pipelines into production applications.</p>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                             {['Python', 'PyTorch', 'TensorFlow', 'RAG', 'LLMs'].map(tech => (
-                                <span key={tech} style={{
-                                    padding: '10px 18px',
-                                    background: 'rgba(191, 90, 242, 0.15)',
-                                    color: '#bf5af2',
-                                    borderRadius: '24px',
-                                    fontSize: '0.95rem',
-                                    fontWeight: 500
-                                }}>
+                                <span key={tech} style={pillStyle(isDark ? 'rgba(191, 90, 242, 0.1)' : 'rgba(191, 90, 242, 0.15)', '#bf5af2')}>
                                     {tech}
                                 </span>
                             ))}
@@ -163,30 +174,23 @@ const About = () => {
                     {/* Cloud & Data */}
                     <motion.div
                         className="spotlight-card"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3 }}
                         style={{
-                            gridColumn: 'span 1',
-                            padding: '40px',
-                            background: 'var(--card-bg)',
-                            border: '1px solid var(--card-border)',
-                            borderRadius: '32px',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            position: 'relative',
-                            overflow: 'hidden'
+                            gridColumn: 'span 2',
+                            ...cardStyle
                         }}
                     >
-                        <Cloud size={32} color="#10b981" style={{ marginBottom: '1.5rem' }} />
-                        <h4 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', fontWeight: 600, color: 'var(--text)' }}>Cloud</h4>
+                        <div style={iconBoxStyle(isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.15)', '#10b981')}>
+                            <Cloud size={28} />
+                        </div>
+                        <h4 style={{ fontSize: '1.5rem', marginBottom: '1rem', fontWeight: 700, color: 'var(--text)' }}>Cloud</h4>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: 1.6 }}>Architecting scalable, serverless solutions on AWS and utilizing robust database technologies.</p>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                             {['AWS', 'SQL', 'Firebase'].map(tech => (
-                                <span key={tech} style={{
-                                    padding: '8px 14px',
-                                    background: 'rgba(16, 185, 129, 0.15)',
-                                    color: '#10b981',
-                                    borderRadius: '24px',
-                                    fontSize: '0.85rem',
-                                    fontWeight: 500
-                                }}>
+                                <span key={tech} style={pillStyle(isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.15)', '#10b981')}>
                                     {tech}
                                 </span>
                             ))}
@@ -196,30 +200,23 @@ const About = () => {
                     {/* Design & Product */}
                     <motion.div
                         className="spotlight-card"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.4 }}
                         style={{
-                            gridColumn: 'span 1',
-                            padding: '40px',
-                            background: 'var(--card-bg)',
-                            border: '1px solid var(--card-border)',
-                            borderRadius: '32px',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            position: 'relative',
-                            overflow: 'hidden'
+                            gridColumn: 'span 2',
+                            ...cardStyle
                         }}
                     >
-                        <Palette size={32} color="#ec4899" style={{ marginBottom: '1.5rem' }} />
-                        <h4 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', fontWeight: 600, color: 'var(--text)' }}>Design</h4>
+                        <div style={iconBoxStyle(isDark ? 'rgba(236, 72, 153, 0.1)' : 'rgba(236, 72, 153, 0.15)', '#ec4899')}>
+                            <Palette size={28} />
+                        </div>
+                        <h4 style={{ fontSize: '1.5rem', marginBottom: '1rem', fontWeight: 700, color: 'var(--text)' }}>Design</h4>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: 1.6 }}>Designing intuitive, pixel-perfect user interfaces with a focus on accessibility.</p>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                             {['Figma', 'UI/UX'].map(tech => (
-                                <span key={tech} style={{
-                                    padding: '8px 14px',
-                                    background: 'rgba(236, 72, 153, 0.15)',
-                                    color: '#ec4899',
-                                    borderRadius: '24px',
-                                    fontSize: '0.85rem',
-                                    fontWeight: 500
-                                }}>
+                                <span key={tech} style={pillStyle(isDark ? 'rgba(236, 72, 153, 0.1)' : 'rgba(236, 72, 153, 0.15)', '#ec4899')}>
                                     {tech}
                                 </span>
                             ))}
@@ -228,9 +225,24 @@ const About = () => {
                 </div>
 
                 <style jsx>{`
-                    @media (max-width: 768px) {
+                    @media (max-width: 1024px) {
+                         .container > div {
+                            grid-template-columns: repeat(2, 1fr) !important;
+                        }
                         .spotlight-card {
-                            grid-column: span 4 !important; /* Full width on mobile */
+                            grid-column: span 2 !important;
+                        }
+                        /* Restore span 1 for cloud/design on tablet? */
+                         .spotlight-card:nth-child(3), .spotlight-card:nth-child(4), .spotlight-card:nth-child(5) {
+                            grid-column: span 1 !important;
+                         }
+                    }
+                    @media (max-width: 768px) {
+                        .container > div {
+                            grid-template-columns: 1fr !important;
+                        }
+                         .spotlight-card {
+                            grid-column: span 1 !important;
                         }
                     }
                 `}</style>
