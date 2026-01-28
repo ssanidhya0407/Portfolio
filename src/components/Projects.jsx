@@ -8,6 +8,7 @@ export const projects = [
         desc: "Intelligent platform helping job seekers with AI-powered resume analysis, ATS optimization, and personalized career roadmaps.",
         image: "/images/career_forge_ai_mockup.png",
         link: "https://github.com/ssanidhya0407/career-forge-ai",
+        websiteLink: "https://career-forge-ai-beige.vercel.app/",
         tech: ["React", "Python", "AI/ML", "OpenAI"],
         color: "#8b5cf6"
     },
@@ -199,6 +200,24 @@ const MagneticImage = ({ project }) => {
                             </div>
 
                             <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', justifyContent: 'center', transform: 'translateZ(50px)' }}>
+                                {project.websiteLink && (
+                                    <a
+                                        href={project.websiteLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{
+                                            color: project.color,
+                                            background: 'rgba(255,255,255,0.95)',
+                                            padding: '10px 20px',
+                                            borderRadius: '20px',
+                                            textDecoration: 'none',
+                                            fontSize: '0.9rem',
+                                            fontWeight: 700
+                                        }}
+                                    >
+                                        Live
+                                    </a>
+                                )}
                                 {project.appStoreLink && (
                                     <a
                                         href={project.appStoreLink}
@@ -358,6 +377,40 @@ const Projects = ({ preview = false }) => {
                                 </div>
 
                                 <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', marginTop: '2.5rem' }}>
+                                    {project.websiteLink && (
+                                        <a
+                                            href={project.websiteLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            style={{
+                                                color: '#fff',
+                                                background: `linear-gradient(135deg, ${project.color}E6, ${project.color}B3)`,
+                                                padding: '14px 28px',
+                                                borderRadius: '28px',
+                                                textDecoration: 'none',
+                                                fontSize: '1rem',
+                                                fontWeight: 600,
+                                                display: 'inline-flex',
+                                                alignItems: 'center',
+                                                gap: '8px',
+                                                border: '1px solid rgba(255,255,255,0.2)',
+                                                height: '54px',
+                                                boxShadow: `0 8px 20px ${project.color}30`,
+                                                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                                e.currentTarget.style.boxShadow = `0 12px 28px ${project.color}50`;
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.currentTarget.style.transform = 'translateY(0)';
+                                                e.currentTarget.style.boxShadow = `0 8px 20px ${project.color}30`;
+                                            }}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                                            Live
+                                        </a>
+                                    )}
                                     {project.appStoreLink && (
                                         <a
                                             href={project.appStoreLink}

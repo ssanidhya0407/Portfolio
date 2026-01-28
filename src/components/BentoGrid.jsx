@@ -198,7 +198,7 @@ const BentoGrid = () => {
                             {projects.slice(0, 4).map((project, idx) => (
                                 <a
                                     key={idx}
-                                    href={project.link}
+                                    href={project.websiteLink || project.appStoreLink || project.link}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     style={{
