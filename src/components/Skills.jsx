@@ -49,7 +49,7 @@ const Skills = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1 }}
-                    style={{ marginBottom: '1rem', textAlign: 'center' }}
+                    style={{ marginBottom: '1rem', textAlign: 'center', fontSize: 'clamp(2.5rem, 6vw, 4rem)' }}
                 >
                     Skills
                 </motion.h2>
@@ -62,7 +62,7 @@ const Skills = () => {
                     style={{
                         color: 'var(--text-dim)',
                         textAlign: 'center',
-                        marginBottom: '4rem',
+                        marginBottom: '8rem',
                         fontSize: '1.2rem'
                     }}
                 >

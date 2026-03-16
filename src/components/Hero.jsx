@@ -64,6 +64,7 @@ const Hero = () => {
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
+                        paddingBottom: '0.15em',
                     }}
                 >
                     Sanidhya Kumar Singh

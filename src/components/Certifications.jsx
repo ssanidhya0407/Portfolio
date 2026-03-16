@@ -47,7 +47,7 @@ const Certifications = () => {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    style={{ textAlign: 'center', marginBottom: '4rem' }}
+                    style={{ textAlign: 'center', marginBottom: '8rem', fontSize: 'clamp(2.5rem, 6vw, 4rem)' }}
                 >
                     Certifications
                 </motion.h2>

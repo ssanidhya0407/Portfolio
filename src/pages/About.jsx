@@ -77,7 +77,7 @@ const About = () => {
                     viewport={{ once: true }}
                     style={{
                         marginBottom: '6rem',
-                        fontSize: 'clamp(3rem, 6vw, 5rem)',
+                        fontSize: 'clamp(2.5rem, 6vw, 4rem)',
                         textAlign: 'center',
                         fontWeight: 700,
                         letterSpacing: '-0.03em',

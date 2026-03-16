@@ -75,7 +75,7 @@ const Experience = ({ preview = false }) => {
                     style={{
                         marginBottom: '1rem',
                         textAlign: 'center',
-                        fontSize: '2.5rem',
+                        fontSize: 'clamp(2.5rem, 6vw, 4rem)',
                         fontWeight: 700,
                         color: 'var(--text)'
                     }}
@@ -91,8 +91,8 @@ const Experience = ({ preview = false }) => {
                     style={{
                         color: 'var(--text-dim)',
                         textAlign: 'center',
-                        marginBottom: '6rem',
-                        fontSize: '1.1rem'
+                        marginBottom: '8rem',
+                        fontSize: '1.2rem'
                     }}
                 >
                     {preview ? "Select roles from my professional journey" : "5 internships across leading institutions and companies"}

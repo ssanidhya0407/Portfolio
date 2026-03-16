@@ -3,12 +3,11 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 export const projects = [
     {
-        title: "Career Forge AI",
+        title: "InterviewFlow",
         achievement: "AI Career Assistant",
         desc: "Intelligent platform helping job seekers with AI-powered resume analysis, ATS optimization, and personalized career roadmaps.",
-        image: "/images/career_forge_ai_mockup.png",
-        link: "https://github.com/ssanidhya0407/career-forge-ai",
-        websiteLink: "https://career-forge-ai-beige.vercel.app/",
+        image: "/interviewflow.png",
+        websiteLink: "https://tryinterviewflow.vercel.app",
         tech: ["React", "Python", "AI/ML", "OpenAI"],
         color: "#8b5cf6"
     },

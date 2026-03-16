@@ -31,7 +31,7 @@ const Achievements = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1 }}
-                    style={{ marginBottom: '1rem', textAlign: 'center' }}
+                    style={{ marginBottom: '1rem', textAlign: 'center', fontSize: 'clamp(2.5rem, 6vw, 4rem)' }}
                 >
                     Achievements
                 </motion.h2>
@@ -44,7 +44,7 @@ const Achievements = () => {
                     style={{
                         color: 'var(--text-dim)',
                         textAlign: 'center',
-                        marginBottom: '4rem',
+                        marginBottom: '8rem',
                         fontSize: '1.2rem'
                     }}
                 >
